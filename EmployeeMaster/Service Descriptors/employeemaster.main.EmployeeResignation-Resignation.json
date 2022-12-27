@@ -1,0 +1,153 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "Resignation",
+    "description" : "Resignation service"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/",
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/api/v1/employeeresignationdetails" : {
+      "get" : {
+        "summary" : "getResignation",
+        "description" : "getResignation",
+        "operationId" : "get-api-v1-employeeresignationdetails",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "employeeCode",
+          "in" : "query",
+          "description" : "",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a Data_DS to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/Data_DS"
+            },
+            "headers" : { }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Data_DS"
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Data_DS"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "data" : {
+      "type" : "object",
+      "properties" : {
+        "employeeCode" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "employeeName" : {
+          "type" : "string"
+        },
+        "emailId" : {
+          "type" : "string"
+        },
+        "DOJ" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "empStatus" : {
+          "type" : "string"
+        },
+        "intimationDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "resignationAcceptancedate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "expectedRelievingdate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "actualRelievingdate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "leavingDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "resignationReason" : {
+          "type" : "string"
+        },
+        "employeeComments" : {
+          "type" : "string"
+        },
+        "managerComments" : {
+          "type" : "string"
+        },
+        "modifiedDatetime" : {
+          "type" : "string"
+        }
+      }
+    },
+    "controlType" : {
+      "type" : "object",
+      "required" : [ "sortkey", "pageNo", "limit", "nextpageUrl" ],
+      "properties" : {
+        "apiVersion" : {
+          "type" : "string"
+        },
+        "sortkey" : {
+          "type" : "string"
+        },
+        "pageNo" : {
+          "type" : "string"
+        },
+        "limit" : {
+          "type" : "string"
+        },
+        "nextpageUrl" : {
+          "type" : "string"
+        },
+        "errorCode" : {
+          "type" : "string"
+        },
+        "errorMsg" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "uniqueItems" : false
+          }
+        }
+      }
+    },
+    "Data_DS" : {
+      "type" : "object",
+      "required" : [ "control" ],
+      "properties" : {
+        "data" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/data",
+            "uniqueItems" : false
+          }
+        },
+        "control" : {
+          "$ref" : "#/definitions/controlType"
+        }
+      }
+    }
+  }
+}

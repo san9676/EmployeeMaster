@@ -1,0 +1,22 @@
+{"records": [
+    {
+        "jsonSchemaLocation": "/EmployeeMaster/Service Descriptors/employeemaster.main.EmployeeMasterChanges-EmployeeMasterChanges.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://www.Tibco.org/EmployeeMaster"
+    },
+    {
+        "jsonSchemaLocation": "/EmployeeMaster/Service Descriptors/employeemaster.main.EmployeeResignation-Resignation.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://www.example.org/EmployeeRegination"
+    },
+    {
+        "jsonSchemaLocation": "/EmployeeMaster/Service Descriptors/employeemaster.main.ResignationChanges-ResignationChanges.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://www.example.org/EmployeeRegination"
+    },
+    {
+        "jsonSchemaLocation": "/EmployeeMaster/Service Descriptors/employeemaster.main.EmployeeMaster-EmployeeMaster.json",
+        "conversionType": "linked",
+        "xsdSchemaTargetNamespace": "http://www.Tibco.org/EmployeeMaster"
+    }
+]}

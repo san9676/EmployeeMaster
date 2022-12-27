@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/EmployeeRegination" xmlns:tns="http://www.example.org/EmployeeRegination" elementFormDefault="qualified" xmlns:Q1="http://www.Tibco.org/EmployeeMaster">
+
+    <import namespace="http://www.Tibco.org/EmployeeMaster" schemaLocation="EmployeeMaster.xsd"></import>
+    <element name="Data_DS">
+    	<complexType>
+    		<sequence>
+    			<element name="data" maxOccurs="unbounded" minOccurs="0" nillable="true">
+    				<complexType>
+    					<sequence>
+    						<element name="employeeCode"
+    							type="int" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="employeeName"
+    							type="string" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="emailId" type="string" maxOccurs="1" minOccurs="0"></element>
+    						<element name="DOJ" type="date" maxOccurs="1" minOccurs="0"></element>
+    						<element name="empStatus" type="string" maxOccurs="1" minOccurs="0"></element>
+    						<element name="intimationDate"
+    							type="date" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="resignationAcceptancedate"
+    							type="date" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="expectedRelievingdate"
+    							type="date" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="actualRelievingdate"
+    							type="date" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="leavingDate" type="date" maxOccurs="1" minOccurs="0"></element>
+    						<element name="resignationReason"
+    							type="string" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="employeeComments"
+    							type="string" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="managerComments"
+    							type="string" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="modifiedDatetime" type="string" maxOccurs="1" minOccurs="0"></element>
+    					</sequence>
+    				</complexType>
+    			</element>
+    			<element name="control" type="Q1:controlType">
+    			</element>
+    		</sequence>
+    	</complexType>
+    </element>
+
+    <element name="ResignationReq">
+    	<complexType>
+    		<sequence>
+    			<element name="FromDate" type="string" maxOccurs="1" minOccurs="0"></element>
+    			<element name="ToDate" type="string" maxOccurs="1" minOccurs="0"></element>
+    			<element name="Page" type="string" maxOccurs="1" minOccurs="0"></element>
+    			<element name="Limit" type="string" maxOccurs="1" minOccurs="0"></element>
+    			<element name="SortKey" type="string" maxOccurs="1" minOccurs="0"></element>
+    			<element name="sortOrder" type="string" maxOccurs="1" minOccurs="0"></element>
+    		</sequence>
+    	</complexType>
+    </element>
+</schema>

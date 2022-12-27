@@ -1,0 +1,33 @@
+{
+    "records": [{
+        "name": "Cloud",
+        "items": [],
+        "url": "https://integration.cloud.tibco.com:443"
+    }],
+    "resources": [
+        {
+            "location": "Service Descriptors/employeemaster.EmployeeMaster-EmployeeMaster.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/employeemaster.main.EmployeeMaster-EmployeeMaster.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/employeemaster.fusion.Fusion-Fusion.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/employeemaster.main.EmployeeMasterChanges-EmployeeMasterChanges.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/employeemaster.main.EmployeeResignation-Resignation.json",
+            "type": "generated"
+        },
+        {
+            "location": "Service Descriptors/employeemaster.main.ResignationChanges-ResignationChanges.json",
+            "type": "generated"
+        }
+    ]
+}

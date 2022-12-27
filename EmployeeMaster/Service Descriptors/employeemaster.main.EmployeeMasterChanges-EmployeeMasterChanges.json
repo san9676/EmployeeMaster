@@ -1,0 +1,345 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "EmployeeMasterChanges",
+    "description" : "EmployeeMasterChanges service"
+  },
+  "host" : "localhost:8080",
+  "basePath" : "/",
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/api/v1/employeeMaster/changes" : {
+      "get" : {
+        "summary" : "getEmployeeMasterChanges",
+        "description" : "getEmployeeMasterChanges",
+        "operationId" : "get-api-v1-employeeMaster-changes",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "fromDate",
+          "in" : "query",
+          "description" : "",
+          "type" : "string",
+          "required" : true
+        }, {
+          "name" : "toDate",
+          "in" : "query",
+          "description" : "",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a Data_DS to be returned",
+            "schema" : {
+              "$ref" : "#/definitions/Data_DS"
+            },
+            "headers" : { }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Data_DS"
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Data_DS"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "absenceData" : {
+      "type" : "object",
+      "properties" : {
+        "empPersonId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "absenceType" : {
+          "type" : "string"
+        },
+        "absenceStartDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "absenceEndDate" : {
+          "type" : "string",
+          "format" : "date"
+        }
+      }
+    },
+    "data" : {
+      "type" : "object",
+      "properties" : {
+        "empPersonId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "empcode" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "empUserName" : {
+          "type" : "string"
+        },
+        "duName" : {
+          "type" : "string"
+        },
+        "buName" : {
+          "type" : "string"
+        },
+        "ouName" : {
+          "type" : "string"
+        },
+        "empDOJ" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "empFirstName" : {
+          "type" : "string"
+        },
+        "empMiddleName" : {
+          "type" : "string"
+        },
+        "empLastName" : {
+          "type" : "string"
+        },
+        "empFullName" : {
+          "type" : "string"
+        },
+        "empEmailId" : {
+          "type" : "string"
+        },
+        "managerPersonId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "managerFirstName" : {
+          "type" : "string"
+        },
+        "managerLastName" : {
+          "type" : "string"
+        },
+        "managerEmailId" : {
+          "type" : "string"
+        },
+        "empDUId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "empDesignation" : {
+          "type" : "string"
+        },
+        "empPersonType" : {
+          "type" : "string"
+        },
+        "locationId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "countryCode" : {
+          "type" : "string"
+        },
+        "countryName" : {
+          "type" : "string"
+        },
+        "gradeCode" : {
+          "type" : "number",
+          "format" : "float"
+        },
+        "managerEmpCode" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "modifiedDatetime" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "empStatus" : {
+          "type" : "string"
+        },
+        "locationName" : {
+          "type" : "string"
+        },
+        "zwayamCandidateId" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "dpName" : {
+          "type" : "string"
+        },
+        "dhName" : {
+          "type" : "string"
+        },
+        "actualRelievingDate" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "expectedRelievingDate" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "lastWorkingDate" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "locationCode" : {
+          "type" : "string"
+        },
+        "empState" : {
+          "type" : "string"
+        },
+        "businessPhoneNumber" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "empFacility" : {
+          "type" : "string"
+        },
+        "empFacilityAddress" : {
+          "type" : "string"
+        },
+        "zipCode" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "companyName" : {
+          "type" : "string"
+        },
+        "clientSite" : {
+          "type" : "string"
+        },
+        "deputationClientLocation" : {
+          "type" : "string"
+        },
+        "gender" : {
+          "type" : "string"
+        },
+        "gradeGroup" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "headHr" : {
+          "type" : "string"
+        },
+        "PRM" : {
+          "type" : "string"
+        },
+        "extension" : {
+          "type" : "string"
+        },
+        "duCode" : {
+          "type" : "string"
+        },
+        "buCode" : {
+          "type" : "string"
+        },
+        "ouCode" : {
+          "type" : "string"
+        },
+        "validFromDate" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "validToDate" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "empOfficeNumber" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "empMobileNumber" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "empCompanyCode" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "workAtHome" : {
+          "type" : "string"
+        },
+        "effectiveStartDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "effectiveEndDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "projectedAssignmentEnd" : {
+          "type" : "string"
+        },
+        "empBuId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "empOuId" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "absenceData" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/absenceData",
+            "uniqueItems" : false
+          }
+        }
+      }
+    },
+    "controlType" : {
+      "type" : "object",
+      "required" : [ "sortkey", "pageNo", "limit", "nextpageUrl" ],
+      "properties" : {
+        "apiVersion" : {
+          "type" : "string"
+        },
+        "sortkey" : {
+          "type" : "string"
+        },
+        "pageNo" : {
+          "type" : "string"
+        },
+        "limit" : {
+          "type" : "string"
+        },
+        "nextpageUrl" : {
+          "type" : "string"
+        },
+        "errorCode" : {
+          "type" : "string"
+        },
+        "errorMsg" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "uniqueItems" : false
+          }
+        }
+      }
+    },
+    "Data_DS" : {
+      "type" : "object",
+      "required" : [ "control" ],
+      "properties" : {
+        "data" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/data",
+            "uniqueItems" : false
+          }
+        },
+        "control" : {
+          "$ref" : "#/definitions/controlType"
+        }
+      }
+    }
+  }
+}

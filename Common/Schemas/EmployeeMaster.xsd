@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://www.Tibco.org/EmployeeMaster" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.Tibco.org/EmployeeMaster">
+
+    <element name="Data_DS" type="tns:Data_DSType"></element>
+    
+    <complexType name="Data_DSType">
+    	<sequence>
+    		<element name="data" type="tns:dataType" maxOccurs="unbounded" minOccurs="0" nillable="true"></element>
+    		<element name="control" type="tns:controlType"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="dataType">
+    <sequence>
+    	<element name="empPersonId" type="long" minOccurs="0" maxOccurs="1"/>
+    	<element name="empcode" type="int" minOccurs="0" maxOccurs="1"/>
+    	<element name="empUserName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="duName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="buName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="ouName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="empDOJ" type="dateTime" minOccurs="0" maxOccurs="1"/>
+    	<element name="empFirstName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="empMiddleName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="empLastName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="empFullName" type="string" minOccurs="0" maxOccurs="1" />
+    	<element name="empEmailId" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="managerPersonId" type="long" minOccurs="0" maxOccurs="1"/>
+    	<element name="managerFirstName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="managerLastName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="managerEmailId" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="empDUId" type="long" minOccurs="0" maxOccurs="1"/>
+    	<element name="empDesignation" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="empPersonType" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="locationId" type="long" minOccurs="0" maxOccurs="1"/>
+    	<element name="countryCode" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="countryName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="gradeCode" type="float" minOccurs="0" maxOccurs="1"/>
+    	<element name="managerEmpCode" type="int" minOccurs="0" maxOccurs="1" />
+    	<element name="modifiedDatetime" type="dateTime" minOccurs="0" maxOccurs="1"/>
+    	<element name="empStatus" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="locationName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="zwayamCandidateId" type="int" minOccurs="0" maxOccurs="1"/>
+    	<element name="dpName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="dhName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="actualRelievingDate" type="dateTime" minOccurs="0" maxOccurs="1"/>
+    	<element name="expectedRelievingDate" type="dateTime" minOccurs="0" maxOccurs="1"/>
+    	<element name="lastWorkingDate" type="dateTime" minOccurs="0" maxOccurs="1"/>
+    	<element name="locationCode" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="empState" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="businessPhoneNumber" type="long" minOccurs="0" maxOccurs="1"/>
+    	<element name="empFacility" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="empFacilityAddress" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="zipCode" type="int" minOccurs="0" maxOccurs="1"/>
+    	<element name="companyName" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="clientSite" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="deputationClientLocation" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="gender" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="gradeGroup" type="int" minOccurs="0" maxOccurs="1"/>
+    	<element name="headHr" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="PRM" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="extension" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="duCode" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="buCode" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="ouCode" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="validFromDate" type="dateTime" minOccurs="0" maxOccurs="1"/>
+    	<element name="validToDate" type="dateTime" minOccurs="0" maxOccurs="1"/>
+    	<element name="empOfficeNumber" type="int" minOccurs="0" maxOccurs="1"/>
+    	<element name="empMobileNumber" type="long" minOccurs="0" maxOccurs="1"/>
+    	<element name="empCompanyCode" type="long" minOccurs="0" maxOccurs="1"/>
+    	<element name="workAtHome" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="effectiveStartDate" type="date" minOccurs="0" maxOccurs="1"/>
+    	<element name="effectiveEndDate" type="date" minOccurs="0" maxOccurs="1"/>
+    	<element name="projectedAssignmentEnd" type="string" minOccurs="0" maxOccurs="1"/>
+    	<element name="empBuId" type="long" minOccurs="0" maxOccurs="1"/>
+    	<element name="empOuId" type="long" minOccurs="0" maxOccurs="1"/>
+    	<element ref="tns:absenceData" maxOccurs="unbounded" minOccurs="0"></element>
+    </sequence></complexType>
+
+    <complexType name="controlType">
+    <sequence>
+              <element name="apiVersion" type="string" minOccurs="0" maxOccurs="1"/>
+              <element name="sortkey" type="string" nillable="true"  />
+              <element name="pageNo" type="string" nillable="true" />
+              <element name="limit" type="string" nillable="true" />
+              <element name="nextpageUrl" type="string" nillable="true" />
+              <element name="errorCode" type="string" minOccurs="0" maxOccurs="1"/>
+              <element name="errorMsg" type="string" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+            </sequence></complexType>
+
+    <element name="absenceData" type="tns:absenceDataType"></element>
+
+    <complexType name="absenceDataType">
+    <sequence>
+                    <element name="empPersonId" type="long" minOccurs="0" maxOccurs="1"/>
+                    <element name="absenceType" type="string" minOccurs="0" maxOccurs="1"/>
+                    <element name="absenceStartDate" type="date" minOccurs="0" maxOccurs="1"/>
+                    <element name="absenceEndDate" type="date" minOccurs="0" maxOccurs="1"/>
+                  </sequence>
+    </complexType>
+
+    <element name="absenceDataRoot" type="tns:absenceDataRootType"></element>
+    
+    <complexType name="absenceDataRootType">
+    	<sequence>
+    		<element ref="tns:absenceData" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+</schema>

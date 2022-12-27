@@ -1,0 +1,38 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0",
+    "title" : "EmployeeMaster",
+    "description" : "EmployeeMaster service"
+  },
+  "host" : "localhost:9086",
+  "basePath" : "/",
+  "schemes" : [ "http" ],
+  "paths" : {
+    "/api/v1/employeeMaster" : {
+      "get" : {
+        "summary" : "getEmployeeMaster",
+        "description" : "getEmployeeMaster",
+        "operationId" : "get-api-v1-employeeMaster",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "employeeCode",
+          "in" : "query",
+          "description" : "",
+          "type" : "string",
+          "required" : true
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "a string to be returned",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : { }
+}

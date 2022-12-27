@@ -1,0 +1,2816 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpws:process exitOnStandardFault="no"
+    name="employeemaster.fusion.RunReportDate" suppressJoinFailure="yes"
+    targetNamespace="http://xmlns.example.com/20221208102823"
+    xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+    xmlns:info="http://www.tibco.com/bw/process/info"
+    xmlns:ns="http://www.tibco.com/pe/EngineTypes"
+    xmlns:ns0="http://xmlns.example.com/20221208102823PLT"
+    xmlns:ns1="http://xmlns.oracle.com/oxp/service/PublicReportService"
+    xmlns:ns10="http://www.tibco.com/namespaces/tnt/plugins/renderxml"
+    xmlns:ns11="http://tns.tibco.com/bw/palette/internal/activityerror+bw.xml.renderxml"
+    xmlns:ns12="http://schemas.tibco.com/bw/plugins/basic/6.0/Exceptions"
+    xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/jdbc+70709162-3b09-4541-9a4a-a1be16615e8c+input"
+    xmlns:ns3="http://www.tibco.com/namespaces/tnt/plugins/jdbc+70709162-3b09-4541-9a4a-a1be16615e8c+output"
+    xmlns:ns4="http://tns.tibco.com/bw/palette/internal/activityerror+bw.jdbc.JDBCQuery"
+    xmlns:ns5="http://www.tibco.com/namespaces/tnt/plugins/jdbc+2aeadc13-552e-445b-81c7-dfa0f75ef818+input"
+    xmlns:ns6="http://www.tibco.com/namespaces/tnt/plugins/jdbc+2aeadc13-552e-445b-81c7-dfa0f75ef818+output"
+    xmlns:ns7="http://tns.tibco.com/bw/palette/internal/accumulateoutput+9ef2869b-1c1b-4773-b5d0-ca28ea7c18ab"
+    xmlns:ns8="http://www.Tibco.org/EmployeeMaster"
+    xmlns:ns9="http://www.example.org/EmployeeFusion"
+    xmlns:sca="http://docs.oasis-open.org/ns/opencsa/sca/200912"
+    xmlns:sca-bpel="http://docs.oasis-open.org/ns/opencsa/sca-bpel/200801"
+    xmlns:tibex="http://www.tibco.com/bpel/2007/extensions"
+    xmlns:tibprop="http://ns.tibco.com/bw/property" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <tibex:Types>
+        <xs:schema attributeFormDefault="unqualified"
+            elementFormDefault="qualified"
+            targetNamespace="http://www.tibco.com/pe/EngineTypes"
+            xmlns:tns="http://www.tibco.com/pe/EngineTypes" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:complexType block="extension restriction"
+                final="extension restriction" name="ErrorReport">
+                <xs:sequence>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="StackTrace" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="Msg" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="FullClass" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="Class" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="ProcessStack" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0" name="MsgCode" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0" name="Data" type="tns:anydata"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType block="extension restriction"
+                final="extension restriction" name="OptionalErrorReport">
+                <xs:sequence>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0"
+                        name="StackTrace" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0" name="Msg" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0"
+                        name="FullClass" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0" name="Class" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0"
+                        name="ProcessStack" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0" name="MsgCode" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0" name="Data" type="tns:anydata"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType block="extension restriction"
+                final="extension restriction" name="FaultDetail">
+                <xs:sequence>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="ActivityName" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0" name="Data" type="tns:anydata"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="Msg" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="MsgCode" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="ProcessStack" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="StackTrace" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="FullClass" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="Class" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType block="extension restriction"
+                final="extension restriction" name="ProcessContext">
+                <xs:sequence>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="JobId" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="ApplicationName" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="EngineName" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" name="ProcessInstanceId" type="xs:string"/>
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" minOccurs="0"
+                        name="CustomJobId" type="xs:string"/>
+                    <!--xs:element name="RestartedFromCheckpoint" form="unqualified" block="extension restriction substitution" type="xs:boolean"/-->
+                    <xs:element
+                        block="extension restriction substitution"
+                        form="unqualified" maxOccurs="unbounded"
+                        minOccurs="0" name="TrackingInfo" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType block="extension restriction"
+                final="extension restriction" name="anydata">
+                <xs:sequence>
+                    <xs:any namespace="##any" processContents="lax"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element block="extension restriction substitution"
+                final="extension restriction" name="OptionalErrorReport" type="tns:OptionalErrorReport"/>
+            <xs:element block="extension restriction substitution"
+                final="extension restriction" name="ErrorReport" type="tns:ErrorReport"/>
+            <xs:element block="extension restriction substitution"
+                final="extension restriction" name="FaultDetail" type="tns:FaultDetail"/>
+            <xs:element block="extension restriction substitution"
+                final="extension restriction" name="ProcessContext" type="tns:ProcessContext"/>
+            <xs:element block="extension restriction substitution"
+                final="extension restriction" name="CorrelationValue" type="xs:string"/>
+        </xs:schema>
+        <schema attributeFormDefault="unqualified"
+            elementFormDefault="unqualified"
+            targetNamespace="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions"
+            version="" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions">
+            <complexType name="ActivityExceptionType">
+                <sequence>
+                    <element name="msg" type="string"/>
+                    <element minOccurs="0" name="msgCode" type="string"/>
+                </sequence>
+            </complexType>
+            <element name="ActivityException" type="tns:ActivityExceptionType"/>
+            <complexType name="ActivityTimedOutExceptionType">
+                <complexContent>
+                    <extension base="tns:ActivityExceptionType"/>
+                </complexContent>
+            </complexType>
+            <element name="ActivityTimedOutException" type="tns:ActivityTimedOutExceptionType"/>
+            <complexType name="DuplicateKeyExceptionType">
+                <complexContent>
+                    <extension base="tns:ActivityExceptionType">
+                        <sequence>
+                            <element name="duplicateKey" type="string"/>
+                            <element minOccurs="0" name="previousJobID" type="string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <element name="DuplicateKeyException" type="tns:DuplicateKeyExceptionType"/>
+        </schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"
+            version="0.1" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns2="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions">
+            <complexType name="ActivityExceptionType">
+                <sequence>
+                    <element name="msg" type="string"/>
+                    <element minOccurs="0" name="msgCode" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="PluginExceptionType">
+                <complexContent>
+                    <extension base="tns2:ActivityExceptionType"/>
+                </complexContent>
+            </complexType>
+            <element name="JDBCPluginException" type="tns2:JDBCPluginExceptionType"/>
+            <complexType name="JDBCPluginExceptionType">
+                <complexContent>
+                    <extension base="tns2:PluginExceptionType"/>
+                </complexContent>
+            </complexType>
+            <element name="InvalidSQLTypeException" type="tns2:InvalidSQLTypeExceptionType"/>
+            <complexType name="InvalidSQLTypeExceptionType">
+                <complexContent>
+                    <extension base="tns2:JDBCPluginExceptionType">
+                        <sequence>
+                            <element name="typeName" type="string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <element name="JDBCConnectionNotFoundException" type="tns2:JDBCConnectionNotFoundExceptionType"/>
+            <complexType name="JDBCConnectionNotFoundExceptionType">
+                <complexContent>
+                    <extension base="tns2:JDBCPluginExceptionType">
+                        <sequence>
+                            <element name="jdbcConnection" type="string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <element name="DuplicatedFieldNameException" type="tns2:DuplicatedFieldNameExceptionType"/>
+            <complexType name="DuplicatedFieldNameExceptionType">
+                <complexContent>
+                    <extension base="tns2:JDBCPluginExceptionType">
+                        <sequence>
+                            <element name="fieldName" type="string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <element name="InvalidTimeZoneException" type="tns2:InvalidTimeZoneExceptionType"/>
+            <complexType name="InvalidTimeZoneExceptionType">
+                <complexContent>
+                    <extension base="tns2:JDBCPluginExceptionType">
+                        <sequence>
+                            <element name="timeZone" type="string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <element name="JDBCSQLException" type="tns2:JDBCSQLExceptionType"/>
+            <complexType name="JDBCSQLExceptionType">
+                <complexContent>
+                    <extension base="tns2:JDBCPluginExceptionType">
+                        <sequence>
+                            <element name="sqlState" type="string"/>
+                            <element name="detailStr" type="string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <element name="LoginTimedOutException" type="tns2:LoginTimedOutExceptionType"/>
+            <complexType name="LoginTimedOutExceptionType">
+                <complexContent>
+                    <extension base="tns2:JDBCPluginExceptionType"/>
+                </complexContent>
+            </complexType>
+        </schema>
+        <schema
+            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+70709162-3b09-4541-9a4a-a1be16615e8c+input"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc+70709162-3b09-4541-9a4a-a1be16615e8c+input">
+            <element name="jdbcQueryActivityInput">
+                <complexType>
+                    <sequence>
+                        <element maxOccurs="1" minOccurs="1"
+                            name="FromDate" nillable="true" type="string"/>
+                        <element maxOccurs="1" minOccurs="1"
+                            name="ToDate" nillable="true" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="ServerTimeZone" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="timeout" type="long"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="maxRows" type="long"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+70709162-3b09-4541-9a4a-a1be16615e8c+output"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc+70709162-3b09-4541-9a4a-a1be16615e8c+output">
+            <element name="resultSet">
+                <complexType>
+                    <sequence>
+                        <element maxOccurs="unbounded" minOccurs="0" name="Record">
+                            <complexType>
+                                <sequence>
+                                    <element maxOccurs="1" minOccurs="1"
+                                    name="EMPPERSONID" type="integer"/>
+                                    <element maxOccurs="1" minOccurs="1"
+                                    name="EMPCODE" type="int"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPUSERNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="DUNAME" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="BUNAME" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="OUNAME" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPDOJ" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPFIRSTNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPMIDDLENAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPLASTNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPFULLNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPEMAILID"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="MANAGERPERSONID"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="MANAGERFIRSTNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="MANAGERLASTNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="MANAGEREMAILID"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPDUID" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPDESIGNATION"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPPERSONTYPE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="LOCATIONID"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="COUNTRYCODE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="COUNTRYNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="GRADECODE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="MANAGEREMPCODE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="MODIFIEDDATETIME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPSTATUS"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="LOCATIONNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="ZWAYAMCANDIDATEID"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="DPNAME" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="DHNAME" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="ACTUALRELIEVINGDATE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EXPECTEDRELIEVINGDATE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="LASTWORKINGDATE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="LOCATIONCODE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPSTATE" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="BUSINESSPHONENUMBER"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPFACILITY"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPFACILITYADDRESS"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="ZIPCODE" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="COMPANYNAME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="CLIENTSITE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="DEPUTATIONCLIENTLOCATION"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="GENDER" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="GRADEGROUP"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="HEADHR" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="PRM" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EXTENSION"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="DUCODE" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="BUCODE" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="OUCODE" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="VALIDFROMDATE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="VALIDTODATE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPOFFICENUMBER"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPMOBILENUMBER"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPCOMPANYCODE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="WORKATHOME"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EFFECTIVESTARTDATE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EFFECTIVEENDDATE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="PROJECTEDASSIGNMENTEND"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPBUID" nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPOUID" nillable="false" type="string"/>
+                                </sequence>
+                            </complexType>
+                        </element>
+                    </sequence>
+                </complexType>
+            </element>
+            <element name="Iterate_Current_Element_Record">
+                <complexType>
+                    <sequence maxOccurs="1" minOccurs="1">
+                        <element maxOccurs="1" minOccurs="1"
+                            name="EMPPERSONID" nillable="false" type="integer"/>
+                        <element maxOccurs="1" minOccurs="1"
+                            name="EMPCODE" nillable="false" type="int"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPUSERNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="DUNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="BUNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="OUNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPDOJ" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPFIRSTNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPMIDDLENAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPLASTNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPFULLNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPEMAILID" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="MANAGERPERSONID" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="MANAGERFIRSTNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="MANAGERLASTNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="MANAGEREMAILID" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPDUID" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPDESIGNATION" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPPERSONTYPE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="LOCATIONID" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="COUNTRYCODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="COUNTRYNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="GRADECODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="MANAGEREMPCODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="MODIFIEDDATETIME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPSTATUS" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="LOCATIONNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="ZWAYAMCANDIDATEID" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="DPNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="DHNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="ACTUALRELIEVINGDATE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EXPECTEDRELIEVINGDATE"
+                            nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="LASTWORKINGDATE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="LOCATIONCODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPSTATE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="BUSINESSPHONENUMBER" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPFACILITY" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPFACILITYADDRESS" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="ZIPCODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="COMPANYNAME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="CLIENTSITE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="DEPUTATIONCLIENTLOCATION"
+                            nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="GENDER" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="GRADEGROUP" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="HEADHR" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0" name="PRM"
+                            nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EXTENSION" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="DUCODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="BUCODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="OUCODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="VALIDFROMDATE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="VALIDTODATE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPOFFICENUMBER" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPMOBILENUMBER" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPCOMPANYCODE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="WORKATHOME" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EFFECTIVESTARTDATE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EFFECTIVEENDDATE" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="PROJECTEDASSIGNMENTEND"
+                            nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPBUID" nillable="false" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="EMPOUID" nillable="false" type="string"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+bw.jdbc.JDBCQuery"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:Q1="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"
+            xmlns:Q2="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+bw.jdbc.JDBCQuery">
+            <import namespace="http://schemas.tibco.com/bw/pe/plugin/5.0/exceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/jdbc/5.0/jdbcExceptions"/>
+            <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
+            <complexType name="ActivityErrorDataType">
+                <choice>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:JDBCConnectionNotFoundException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:InvalidTimeZoneException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:JDBCSQLException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:LoginTimedOutException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:InvalidSQLTypeException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:DuplicatedFieldNameException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q2:ActivityTimedOutException"/>
+                </choice>
+            </complexType>
+        </schema>
+        <schema
+            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+2aeadc13-552e-445b-81c7-dfa0f75ef818+input"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc+2aeadc13-552e-445b-81c7-dfa0f75ef818+input">
+            <element name="jdbcQueryActivityInput">
+                <complexType>
+                    <sequence>
+                        <element maxOccurs="1" minOccurs="1"
+                            name="EMPPERSONID" nillable="true" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="ServerTimeZone" type="string"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="timeout" type="long"/>
+                        <element maxOccurs="1" minOccurs="0"
+                            name="maxRows" type="long"/>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+        <schema
+            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+2aeadc13-552e-445b-81c7-dfa0f75ef818+output"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/jdbc+2aeadc13-552e-445b-81c7-dfa0f75ef818+output">
+            <element name="resultSet">
+                <complexType>
+                    <sequence>
+                        <element maxOccurs="unbounded" minOccurs="0" name="Record">
+                            <complexType>
+                                <sequence>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="EMPPERSONID"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="ABSENCETYPE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="ABSENCESTARTDATE"
+                                    nillable="false" type="string"/>
+                                    <element maxOccurs="1" minOccurs="0"
+                                    name="ABSENCEENDDATE"
+                                    nillable="false" type="string"/>
+                                </sequence>
+                            </complexType>
+                        </element>
+                    </sequence>
+                </complexType>
+            </element>
+        </schema>
+        <xs:schema elementFormDefault="qualified"
+            targetNamespace="http://tns.tibco.com/bw/palette/internal/accumulateoutput+9ef2869b-1c1b-4773-b5d0-ca28ea7c18ab"
+            xmlns:Q1="http://www.Tibco.org/EmployeeMaster"
+            xmlns:tns="http://tns.tibco.com/bw/palette/internal/accumulateoutput+9ef2869b-1c1b-4773-b5d0-ca28ea7c18ab" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:import namespace="http://www.Tibco.org/EmployeeMaster"/>
+            <xs:element name="AccumulatedOutput" type="tns:AccumulatedOutputType"/>
+            <xs:complexType name="AccumulatedOutputType">
+                <xs:sequence maxOccurs="1" minOccurs="0">
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="Q1:absenceDataRoot"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+        <xsd:schema
+            targetNamespace="http://www.tibco.com/namespaces/tnt/plugins/renderxml"
+            xmlns:tns="http://www.tibco.com/namespaces/tnt/plugins/renderxml" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="byteEncoding" type="xsd:string"/>
+            <xsd:element name="cdataSections" type="xsd:string"/>
+            <xsd:element name="renderAsText" type="xsd:boolean"/>
+            <xsd:element name="renderDefaultPrefix" type="xsd:string"/>
+            <xsd:element name="term">
+                <xsd:complexType>
+                    <xsd:attribute name="ref" type="xsd:IDREF"/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="textEncoding" type="xsd:string"/>
+            <xsd:element name="validateInput" type="xsd:boolean"/>
+            <xsd:element name="writeXsiTypes" type="xsd:boolean"/>
+            <xsd:element name="xmlBytes" type="xsd:base64Binary"/>
+            <xsd:element name="xmlString" type="xsd:string"/>
+        </xsd:schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://schemas.tibco.com/bw/plugins/xml/5.0/xmlExceptions"
+            xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.tibco.com/bw/plugins/xml/5.0/xmlExceptions">
+            <element name="XMLException" type="tns:XMLExceptionType"/>
+            <complexType name="XMLExceptionType">
+                <sequence>
+                    <element name="msg" type="string"/>
+                    <element minOccurs="0" name="msgCode" type="string"/>
+                </sequence>
+            </complexType>
+            <element name="UnsupportedEncodingException" type="tns:UnsupportedEncodingExceptionType"/>
+            <complexType name="UnsupportedEncodingExceptionType">
+                <complexContent>
+                    <extension base="tns:XMLExceptionType">
+                        <sequence>
+                            <element name="encoding" type="string"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="XMLRenderExceptionType">
+                <complexContent>
+                    <extension base="tns:XMLExceptionType"/>
+                </complexContent>
+            </complexType>
+            <element name="XMLRenderException" type="tns:XMLRenderExceptionType"/>
+            <complexType name="XMLParseExceptionType">
+                <complexContent>
+                    <extension base="tns:XMLExceptionType"/>
+                </complexContent>
+            </complexType>
+            <element name="XMLParseException" type="tns:XMLParseExceptionType"/>
+            <complexType name="XMLTransformExceptionType">
+                <complexContent>
+                    <extension base="tns:XMLExceptionType"/>
+                </complexContent>
+            </complexType>
+            <element name="XMLTransformException" type="tns:XMLTransformExceptionType"/>
+            <complexType name="MissingByteCountExceptionType">
+                <complexContent>
+                    <extension base="tns:XMLExceptionType"/>
+                </complexContent>
+            </complexType>
+            <element name="MissingByteCountException" type="tns:MissingByteCountExceptionType"/>
+            <complexType name="ValidationExceptionType">
+                <complexContent>
+                    <extension base="tns:XMLExceptionType"/>
+                </complexContent>
+            </complexType>
+            <element name="ValidationException" type="tns:ValidationExceptionType"/>
+        </schema>
+        <schema elementFormDefault="unqualified"
+            targetNamespace="http://tns.tibco.com/bw/palette/internal/activityerror+bw.xml.renderxml"
+            xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:Q1="http://schemas.tibco.com/bw/plugins/xml/5.0/xmlExceptions" xmlns:tns="http://tns.tibco.com/bw/palette/internal/activityerror+bw.xml.renderxml">
+            <import namespace="http://schemas.tibco.com/bw/plugins/xml/5.0/xmlExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/xml/5.0/xmlExceptions"/>
+            <import namespace="http://schemas.tibco.com/bw/plugins/xml/5.0/xmlExceptions"/>
+            <element name="ActivityErrorData" type="tns:ActivityErrorDataType"/>
+            <complexType name="ActivityErrorDataType">
+                <choice>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:XMLRenderException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:UnsupportedEncodingException"/>
+                    <element maxOccurs="1" minOccurs="0" ref="Q1:MissingByteCountException"/>
+                </choice>
+            </complexType>
+        </schema>
+        <wsdl:definitions
+            targetNamespace="http://xmlns.example.com/20221208102823PLT"
+            xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+            xmlns:ptyp="http://xmlns.oracle.com/oxp/service/PublicReportService"
+            xmlns:tns="http://xmlns.example.com/20221208102823PLT"
+            xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"
+            xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <plnk:partnerLinkType name="partnerLinkType">
+                <plnk:role name="use" portType="ptyp:Fusion"/>
+            </plnk:partnerLinkType>
+            <wsdl:import namespace="http://xmlns.oracle.com/oxp/service/PublicReportService"/>
+        </wsdl:definitions>
+    </tibex:Types>
+    <tibex:ProcessInfo callable="false" createdBy="admin"
+        createdOn="Thu Dec 08 10:28:23 IST 2022" description=""
+        extraErrorVars="true" modifiers="public"
+        productVersion="6.8.0 V55 2021-11-10" scalable="true"
+        singleton="true" stateless="false" type="IT"/>
+    <tibex:ProcessInterface context="" input="" output=""/>
+    <tibex:ProcessTemplateConfigurations/>
+    <notation:Diagram measurementUnit="Pixel" type="BWProcess"
+        xmlns:bwnotation="http://tns.tibco.com/bw/runtime/BWNotation"
+        xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <children type="2001">
+            <children type="5001"/>
+            <children type="3001">
+                <styles xsi:type="notation:SortingStyle"/>
+                <styles xsi:type="notation:FilteringStyle"/>
+                <element href="//0/@process"/>
+            </children>
+            <children type="3002">
+                <styles xsi:type="notation:SortingStyle"/>
+                <styles xsi:type="notation:FilteringStyle"/>
+            </children>
+            <children type="3003">
+                <styles xsi:type="notation:SortingStyle"/>
+                <styles xsi:type="notation:FilteringStyle"/>
+            </children>
+            <children type="3004">
+                <children type="4018">
+                    <children type="3018">
+                        <children type="4020">
+                            <children type="3020">
+                                <children type="4005">
+                                    <children type="3007">
+                                    <children type="4010">
+                                    <children type="5002"/>
+                                    <children type="3010">
+                                    <children type="4013">
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0"/>
+                                    <layoutConstraint
+                                    height="34"
+                                    width="34" x="9"
+                                    xsi:type="notation:Bounds" y="55"/>
+                                    </children>
+                                    <styles xsi:type="notation:SortingStyle"/>
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+                                    <children type="3011">
+                                    <children type="4011">
+                                    <children type="3012">
+                                    <children type="4002">
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.0"/>
+
+                                    <layoutConstraint
+                                    height="40"
+                                    width="40"
+                                    xsi:type="notation:Bounds" y="103"/>
+                                    </children>
+                                    <styles xsi:type="notation:SortingStyle"/>
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+                                    <children type="3013">
+                                    <children type="4018">
+                                    <children type="3018">
+
+                                    <children type="4020">
+
+                                    <children type="3020">
+
+                                    <children type="4005">
+
+                                    <children type="3007">
+
+                                    <children type="4002">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.2"/>
+
+                                    <layoutConstraint
+                                    x="534"
+                                    xsi:type="notation:Bounds" y="27"/>
+                                    </children>
+
+                                    <children type="4002">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.3"/>
+
+                                    <layoutConstraint
+                                    x="34"
+                                    xsi:type="notation:Bounds" y="95"/>
+                                    </children>
+
+                                    <children type="4018">
+
+                                    <children type="3018">
+
+                                    <children type="4020">
+
+                                    <children type="3020">
+
+                                    <children type="4005">
+
+                                    <children type="3007">
+
+                                    <children type="4002">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.2"/>
+
+                                    <layoutConstraint
+                                    x="38"
+                                    xsi:type="notation:Bounds" y="41"/>
+                                    </children>
+
+                                    <children type="4002 bw.generalactivities.mapper">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.3"/>
+
+                                    <layoutConstraint
+                                    height="40"
+                                    width="40"
+                                    x="150"
+                                    xsi:type="notation:Bounds" y="25"/>
+                                    </children>
+
+                                    <styles xsi:type="notation:DrawerStyle"/>
+
+                                    <styles xsi:type="notation:SortingStyle"/>
+
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity"/>
+
+                                    <layoutConstraint
+                                    height="188"
+                                    width="325" xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles xsi:type="notation:SortingStyle"/>
+
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4"/>
+
+                                    <layoutConstraint
+                                    height="188"
+                                    width="328"
+                                    x="15"
+                                    xsi:type="notation:Bounds" y="20"/>
+                                    </children>
+
+                                    <children type="4002">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.0"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4002">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@activities.1"/>
+
+                                    <layoutConstraint
+                                    height="24"
+                                    width="24"
+                                    x="331"
+                                    xsi:type="notation:Bounds" y="81"/>
+                                    </children>
+
+                                    <styles xsi:type="notation:SortingStyle"/>
+
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <styles
+                                    collapsed="true"
+                                    restoreHeight="232"
+                                    restoreWidth="368"
+                                    restoreX="177"
+                                    restoreY="26" xsi:type="bwnotation:ResizingStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4"/>
+
+                                    <layoutConstraint
+                                    height="70"
+                                    width="95"
+                                    x="177"
+                                    xsi:type="notation:Bounds" y="26"/>
+                                    </children>
+
+                                    <children type="4002">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.5"/>
+
+                                    <layoutConstraint
+                                    x="288"
+                                    xsi:type="notation:Bounds" y="27"/>
+                                    </children>
+
+                                    <children type="4002 bw.xml.renderxml">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.6"/>
+
+                                    <layoutConstraint
+                                    height="40"
+                                    width="40"
+                                    x="386"
+                                    xsi:type="notation:Bounds" y="27"/>
+                                    </children>
+
+                                    <children type="4002">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.7"/>
+
+                                    <layoutConstraint
+                                    x="51"
+                                    xsi:type="notation:Bounds" y="206"/>
+                                    </children>
+
+                                    <children type="4002">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.8"/>
+
+                                    <layoutConstraint
+                                    x="165"
+                                    xsi:type="notation:Bounds" y="258"/>
+                                    </children>
+
+                                    <styles xsi:type="notation:DrawerStyle"/>
+
+                                    <styles xsi:type="notation:SortingStyle"/>
+
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity"/>
+
+                                    <layoutConstraint
+                                    height="378"
+                                    width="940" xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles xsi:type="notation:SortingStyle"/>
+
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity"/>
+
+                                    <layoutConstraint
+                                    height="378"
+                                    width="943"
+                                    x="15" xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4022">
+
+                                    <children type="3022">
+
+                                    <children type="4029">
+
+                                    <children type="3031">
+
+                                    <children type="4033">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@faultHandlers/@catchAll"/>
+
+                                    <layoutConstraint
+                                    height="34"
+                                    width="34"
+                                    xsi:type="notation:Bounds" y="68"/>
+                                    </children>
+
+                                    <styles xsi:type="notation:SortingStyle"/>
+
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+
+                                    <children type="3032">
+
+                                    <children type="4005">
+
+                                    <children type="3007">
+
+                                    <children type="4002">
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <children type="4017">
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@faultHandlers/@catchAll/@activity/@activity/@activities.0"/>
+
+                                    <layoutConstraint
+                                    x="216"
+                                    xsi:type="notation:Bounds" y="32"/>
+                                    </children>
+
+                                    <styles xsi:type="notation:DrawerStyle"/>
+
+                                    <styles xsi:type="notation:SortingStyle"/>
+
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@faultHandlers/@catchAll/@activity/@activity"/>
+
+                                    <layoutConstraint
+                                    height="168"
+                                    width="862" xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles xsi:type="notation:SortingStyle"/>
+
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@faultHandlers/@catchAll"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+
+                                    <styles xsi:type="notation:SortingStyle"/>
+
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <styles xsi:type="bwnotation:BackgroundStyle"/>
+
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@faultHandlers"/>
+
+                                    <layoutConstraint
+                                    height="200"
+                                    width="888" xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles xsi:type="notation:SortingStyle"/>
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles xsi:type="bwnotation:BackgroundStyle"/>
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity"/>
+
+                                    <layoutConstraint
+                                    height="579"
+                                    width="983" xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles xsi:type="notation:SortingStyle"/>
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+                                    <children type="3016">
+                                    <children type="4002">
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <children type="4017">
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+
+                                    <layoutConstraint xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles
+                                    backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.1"/>
+
+                                    <layoutConstraint
+                                    xsi:type="notation:Bounds" y="40"/>
+                                    </children>
+                                    <styles xsi:type="notation:SortingStyle"/>
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+                                    <styles
+                                    fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles xsi:type="bwnotation:BackgroundStyle"/>
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0/@messages.0"/>
+                                    <layoutConstraint
+                                    height="598"
+                                    width="1045"
+                                    x="2" xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles xsi:type="notation:SortingStyle"/>
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    </children>
+                                    <styles fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles xsi:type="bwnotation:BackgroundStyle"/>
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+                                    <element href="//0/@process/@activity/@activity/@activities.0"/>
+                                    <layoutConstraint
+                                    height="628"
+                                    width="1064" xsi:type="notation:Bounds"/>
+                                    </children>
+                                    <styles xsi:type="notation:DrawerStyle"/>
+                                    <styles xsi:type="notation:SortingStyle"/>
+                                    <styles xsi:type="notation:FilteringStyle"/>
+                                    <element href="//0/@process/@activity/@activity"/>
+                                    </children>
+                                    <styles fontName="Segoe UI"
+                                    lineColor="0" xsi:type="notation:ShapeStyle"/>
+                                    <styles backgroundColor="16777215"
+                                    gradientEndColor="50431"
+                                    gradientStartColor="16777215" xsi:type="bwnotation:BackgroundStyle"/>
+                                    <styles xsi:type="bwnotation:ResizingStyle"/>
+                                    <element href="//0/@process/@activity/@activity"/>
+                                    <layoutConstraint height="800"
+                                    width="1347" xsi:type="notation:Bounds"/>
+                                </children>
+                                <styles xsi:type="notation:SortingStyle"/>
+                                <styles xsi:type="notation:FilteringStyle"/>
+                            </children>
+                            <styles fontName="Segoe UI" lineColor="0" xsi:type="notation:ShapeStyle"/>
+                            <styles xsi:type="bwnotation:BackgroundStyle"/>
+                            <styles xsi:type="bwnotation:ResizingStyle"/>
+                            <element href="//0/@process/@activity"/>
+                            <layoutConstraint height="800" width="1350" xsi:type="notation:Bounds"/>
+                        </children>
+                        <styles xsi:type="notation:SortingStyle"/>
+                        <styles xsi:type="notation:FilteringStyle"/>
+                        <element href="//0/@process/@activity"/>
+                    </children>
+                    <styles fontName="Segoe UI" lineColor="0" xsi:type="notation:ShapeStyle"/>
+                    <styles xsi:type="bwnotation:BackgroundStyle"/>
+                    <styles xsi:type="bwnotation:ResizingStyle"/>
+                    <element href="//0/@process/@activity"/>
+                    <layoutConstraint height="824" width="1350" x="1"
+                        xsi:type="notation:Bounds" y="1"/>
+                </children>
+                <styles xsi:type="notation:SortingStyle"/>
+                <styles xsi:type="notation:FilteringStyle"/>
+                <element href="//0/@process"/>
+            </children>
+            <styles fontName="Segoe UI" lineColor="0" xsi:type="notation:ShapeStyle"/>
+            <element href="//0/@process"/>
+            <layoutConstraint height="876" width="1692" xsi:type="notation:Bounds"/>
+        </children>
+        <styles xsi:type="notation:DiagramStyle"/>
+        <element href="//0"/>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.0"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.1"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@links/@children.0"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@links/@children.1"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.2" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@activities.4/@activity/@activities.1/@activity/@activity/@links/@children.2"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.2"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.3"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.3"/>
+            <bendpoints points="[25, 7, -133, -41]$[134, 41, -24, -7]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.4"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.4"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.1"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.5"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+        <edges
+            source="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.5"
+            target="//@children.0/@children.4/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.2/@children.0/@children.1/@children.0/@children.0/@children.0/@children.0/@children.0/@children.0/@children.6" type="4006">
+            <children type="6002">
+                <layoutConstraint xsi:type="notation:Location" y="40"/>
+            </children>
+            <styles lineColor="0" xsi:type="notation:ConnectorStyle"/>
+            <styles fontName="Segoe UI" xsi:type="notation:FontStyle"/>
+            <element href="//0/@process/@activity/@activity/@activities.0/@messages.0/@activity/@activity/@links/@children.6"/>
+            <bendpoints points="[0, 0, 0, 0]$[0, 0, 0, 0]" xsi:type="notation:RelativeBendpoints"/>
+        </edges>
+    </notation:Diagram>
+    <tibex:NamespaceRegistry enabled="true">
+        <tibex:namespaceItem
+            namespace="http://www.example.org/EmployeeFusion" prefix="tns1"/>
+        <tibex:namespaceItem
+            namespace="http://www.w3.org/2001/XMLSchema-instance" prefix="xsi"/>
+        <tibex:namespaceItem
+            namespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+70709162-3b09-4541-9a4a-a1be16615e8c+input" prefix="tns"/>
+        <tibex:namespaceItem
+            namespace="http://www.tibco.com/namespaces/tnt/plugins/jdbc+2aeadc13-552e-445b-81c7-dfa0f75ef818+input" prefix="tns2"/>
+        <tibex:namespaceItem
+            namespace="http://www.Tibco.org/EmployeeMaster" prefix="tns3"/>
+        <tibex:namespaceItem
+            namespace="http://www.w3.org/2001/XMLSchema" prefix="xsd"/>
+        <tibex:namespaceItem
+            namespace="http://xmlns.oracle.com/oxp/service/PublicReportService" prefix="tns4"/>
+        <tibex:namespaceItem
+            namespace="http://www.tibco.com/bw/xslt/custom-functions" prefix="tib"/>
+    </tibex:NamespaceRegistry>
+    <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
+        location="../../../../Common/Service%20Descriptors/Fusion.wsdl" namespace="http://xmlns.oracle.com/oxp/service/PublicReportService"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.Tibco.org/EmployeeMaster"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/EmployeeFusion"/>
+    <bpws:import importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.Tibco.org/EmployeeMaster"/>
+    <bpws:partnerLinks>
+        <bpws:partnerLink myRole="use" name="Fusion"
+            partnerLinkType="ns0:partnerLinkType"
+            sca-bpel:ignore="false" sca-bpel:service="Fusion"/>
+    </bpws:partnerLinks>
+    <bpws:variables>
+        <bpws:variable element="ns:ProcessContext"
+            name="_processContext" sca-bpel:internal="true"/>
+        <bpws:variable messageType="ns1:NewOperationRequest"
+            name="NewOperation" sca-bpel:internal="true"/>
+        <bpws:variable messageType="ns1:NewOperationResponse"
+            name="NewOperationOut-input" sca-bpel:internal="true"/>
+        <bpws:variable name="jdbcProperty" sca-bpel:hotUpdate="false"
+            sca-bpel:privateProperty="true" sca-bpel:property="yes"
+            sca-bpel:sharedResourceType="{http://xsd.tns.tibco.com/amf/models/sharedresource/jdbc}JdbcDataSource" type="xsd:string">
+            <bpws:from>
+                <bpws:literal>common.JDBCConnectionResource</bpws:literal>
+            </bpws:from>
+        </bpws:variable>
+        <bpws:variable element="ns2:jdbcQueryActivityInput"
+            name="FetchEMpDeatils-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns3:resultSet" name="FetchEMpDeatils" sca-bpel:internal="true"/>
+        <bpws:variable element="ns4:ActivityErrorData"
+            name="_error_FetchEMpDeatils" sca-bpel:internal="true"/>
+        <bpws:variable element="ns:ErrorReport" name="_error" sca-bpel:internal="true"/>
+        <bpws:variable element="ns5:jdbcQueryActivityInput"
+            name="FetchLeaveData-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns6:resultSet" name="FetchLeaveData" sca-bpel:internal="true"/>
+        <bpws:variable element="ns4:ActivityErrorData"
+            name="_error_FetchLeaveData" sca-bpel:internal="true"/>
+        <bpws:variable element="ns7:AccumulatedOutput" name="Accumulate" sca-bpel:internal="true"/>
+        <bpws:variable element="ns8:absenceDataRoot" name="Mapper-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns8:absenceDataRoot" name="Mapper" sca-bpel:internal="true"/>
+        <bpws:variable element="ns9:DATA_DS" name="empData-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns9:DATA_DS" name="empData" sca-bpel:internal="true"/>
+        <bpws:variable element="ns9:DATA_DS" name="RenderXml-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns10:xmlString" name="RenderXml" sca-bpel:internal="true"/>
+        <bpws:variable element="ns11:ActivityErrorData"
+            name="_error_RenderXml" sca-bpel:internal="true"/>
+        <bpws:variable name="FaultName" sca-bpel:internal="true" type="xsd:string"/>
+        <bpws:variable element="ns:FaultDetail" name="FaultDetails" sca-bpel:internal="true"/>
+        <bpws:variable element="ns9:DATA_DS" name="RenderXml1-input" sca-bpel:internal="true"/>
+        <bpws:variable element="ns10:xmlString" name="RenderXml1" sca-bpel:internal="true"/>
+        <bpws:variable element="ns11:ActivityErrorData"
+            name="_error_RenderXml1" sca-bpel:internal="true"/>
+        <bpws:variable messageType="ns1:NewOperationResponse"
+            name="Reply-input" sca-bpel:internal="true"/>
+    </bpws:variables>
+    <bpws:extensions>
+        <bpws:extension mustUnderstand="no" namespace="http://www.eclipse.org/gmf/runtime/1.0.2/notation"/>
+        <bpws:extension mustUnderstand="no" namespace="http://www.tibco.com/bw/process/info"/>
+        <bpws:extension mustUnderstand="no" namespace="http://docs.oasis-open.org/ns/opencsa/sca-bpel/200801"/>
+        <bpws:extension mustUnderstand="no" namespace="http://docs.oasis-open.org/ns/opencsa/sca/200912"/>
+        <bpws:extension mustUnderstand="no" namespace="http://ns.tibco.com/bw/property"/>
+        <bpws:extension mustUnderstand="no" namespace="http://www.tibco.com/bpel/2007/extensions"/>
+    </bpws:extensions>
+    <bpws:scope name="scope">
+        <bpws:flow name="flow">
+            <bpws:links/>
+            <bpws:pick createInstance="yes" name="pick" tibex:xpdlId="c7fe88ff-8211-465a-9583-753ff5bf6d5b">
+                <bpws:onMessage operation="NewOperation"
+                    partnerLink="Fusion" portType="ns1:Fusion"
+                    tibex:xpdlId="33a0be0e-8ce6-4483-8861-064eac0ff0c4" variable="NewOperation">
+                    <bpws:scope name="scope1">
+                        <bpws:faultHandlers>
+                            <bpws:catchAll
+                                tibex:faultDetailsVar="FaultDetails"
+                                tibex:faultNameVar="FaultName" tibex:xpdlId="48c673f6-93df-49e3-aabb-e2d2d1904a24">
+                                <bpws:scope name="scope2">
+                                    <bpws:flow name="flow3">
+                                    <bpws:links/>
+                                    <bpws:rethrow name="Rethrow" tibex:xpdlId="75ea4293-1123-4853-8c5b-8c546aebd002"/>
+                                    </bpws:flow>
+                                </bpws:scope>
+                            </bpws:catchAll>
+                        </bpws:faultHandlers>
+                        <bpws:flow name="flow1">
+                            <bpws:links>
+                                <bpws:link
+                                    name="OnMessageStartToJDBCQuery" tibex:linkType="SUCCESS"/>
+                                <bpws:link name="JDBCQueryToIterate" tibex:linkType="SUCCESSWITHNOCONDITION"/>
+                                <bpws:link name="IterateToMapper1" tibex:linkType="SUCCESS"/>
+                                <bpws:link
+                                    name="Mapper1ToNewOperationOut" tibex:linkType="SUCCESS"/>
+                                <bpws:link
+                                    name="RenderXmlToNewOperationOut" tibex:linkType="SUCCESS"/>
+                                <bpws:link
+                                    name="FetchEMpDeatilsToRenderXml1" tibex:linkType="SUCCESSWITHCONDITION"/>
+                                <bpws:link name="RenderXml1ToReply" tibex:linkType="SUCCESS"/>
+                            </bpws:links>
+                            <bpws:empty name="OnMessageStart"
+                                tibex:constructor="onMessageStart" tibex:xpdlId="6b3115de-8895-4194-9e04-191b9a324776">
+                                <bpws:sources>
+                                    <bpws:source linkName="OnMessageStartToJDBCQuery"/>
+                                </bpws:sources>
+                            </bpws:empty>
+                            <bpws:empty name="OnMessageEnd"
+                                tibex:constructor="onMessageEnd" tibex:xpdlId="79508cb2-d61a-46ec-afda-199c190ff48e"/>
+                            <bpws:reply name="NewOperationOut"
+                                operation="NewOperation"
+                                partnerLink="Fusion"
+                                portType="ns1:Fusion"
+                                tibex:xpdlId="0104bd0b-4187-4ec6-badb-8f3ebad7faa4" variable="NewOperationOut-input">
+                                <tibex:inputBinding expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns4="http://xmlns.oracle.com/oxp/service/PublicReportService" xmlns:tns1="http://www.example.org/EmployeeFusion" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" version="2.0"&gt;&lt;xsl:param name="RenderXml"/&gt;&lt;xsl:template name="NewOperationOut-input" match="/"&gt;&lt;tns4:NewOperationResponse&gt;&lt;parameters&gt;&lt;tns1:runReportResponse&gt;&lt;tns1:runReportReturn&gt;&lt;tns1:reportBytes&gt;&lt;xsl:value-of select="tib:string-to-base64($RenderXml)"/&gt;&lt;/tns1:reportBytes&gt;&lt;tns1:reportContentType&gt;&lt;xsl:value-of select="'text/xml'"/&gt;&lt;/tns1:reportContentType&gt;&lt;tns1:reportFileID&gt;&lt;xsl:value-of select="''"/&gt;&lt;/tns1:reportFileID&gt;&lt;tns1:reportLocale&gt;&lt;xsl:value-of select="''"/&gt;&lt;/tns1:reportLocale&gt;&lt;tns1:metaDataList&gt;&lt;xsl:value-of select="''"/&gt;&lt;/tns1:metaDataList&gt;&lt;/tns1:runReportReturn&gt;&lt;/tns1:runReportResponse&gt;&lt;/parameters&gt;&lt;/tns4:NewOperationResponse&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
+                                <tibex:inputBindings>
+                                    <tibex:partBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.oracle.com/oxp/service/PublicReportService&quot; xmlns:tns1=&quot;http://www.example.org/EmployeeFusion&quot; xmlns:tib=&quot;http://www.tibco.com/bw/xslt/custom-functions&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;RenderXml&quot;/>&#xa;    &lt;xsl:template name=&quot;NewOperationOut-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns1:runReportResponse>&#xa;            &lt;tns1:runReportReturn>&#xa;                &lt;tns1:reportBytes>&#xa;                    &lt;xsl:value-of select=&quot;tib:string-to-base64($RenderXml)&quot;/>&#xa;                &lt;/tns1:reportBytes>&#xa;                &lt;tns1:reportContentType>&#xa;                    &lt;xsl:value-of select=&quot;'text/xml'&quot;/>&#xa;                &lt;/tns1:reportContentType>&#xa;                &lt;tns1:reportFileID>&#xa;                    &lt;xsl:value-of select=&quot;''&quot;/>&#xa;                &lt;/tns1:reportFileID>&#xa;                &lt;tns1:reportLocale>&#xa;                    &lt;xsl:value-of select=&quot;''&quot;/>&#xa;                &lt;/tns1:reportLocale>&#xa;                &lt;tns1:metaDataList>&#xa;                    &lt;xsl:value-of select=&quot;''&quot;/>&#xa;                &lt;/tns1:metaDataList>&#xa;            &lt;/tns1:runReportReturn>&#xa;        &lt;/tns1:runReportResponse>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                </tibex:inputBindings>
+                                <bpws:targets>
+                                    <bpws:target linkName="RenderXmlToNewOperationOut"/>
+                                </bpws:targets>
+                            </bpws:reply>
+                            <bpws:extensionActivity>
+                                <tibex:activityExtension
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/namespaces/tnt/plugins/jdbc+70709162-3b09-4541-9a4a-a1be16615e8c+input&quot; xmlns:tns1=&quot;http://www.example.org/EmployeeFusion&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:tib=&quot;http://www.tibco.com/bw/xslt/custom-functions&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;NewOperation&quot;/>&lt;xsl:template name=&quot;FetchEMpDeatils-input&quot; match=&quot;/&quot;>&lt;tns:jdbcQueryActivityInput>&lt;FromDate>&lt;xsl:value-of select=&quot;tib:parse-dateTime('yyyy-MM-dd HH:mm:ss',$NewOperation/parameters/tns1:runReport/tns1:reportRequest/tns1:parameterNameValues/tns1:item[tns1:name='p_last_run_date']/tns1:values/tns1:item)&quot;/>&lt;/FromDate>&lt;ToDate>&lt;xsl:value-of select=&quot;tib:parse-dateTime('yyyy-MM-dd HH:mm:ss',$NewOperation/parameters/tns1:runReport/tns1:reportRequest/tns1:parameterNameValues/tns1:item[tns1:name='p_to_date']/tns1:values/tns1:item)&quot;/>&lt;/ToDate>&lt;/tns:jdbcQueryActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>"
+                                    expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"
+                                    inputVariable="FetchEMpDeatils-input"
+                                    name="FetchEMpDeatils"
+                                    outputVariable="FetchEMpDeatils"
+                                    tibex:xpdlId="70709162-3b09-4541-9a4a-a1be16615e8c" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="OnMessageStartToJDBCQuery"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="JDBCQueryToIterate">
+                                    <tibex:DesignExpression>
+                                    <tibex:expression
+                                    expression="##otherwise##" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                    </tibex:DesignExpression>
+                                    <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[##otherwise##]]></bpws:transitionCondition>
+                                    </bpws:source>
+                                    <bpws:source linkName="FetchEMpDeatilsToRenderXml1">
+                                    <tibex:DesignExpression>
+                                    <tibex:expression
+                                    expression="not(exists($FetchEMpDeatils/Record/EMPPERSONID))" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                    </tibex:DesignExpression>
+                                    <bpws:transitionCondition expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[not(exists($FetchEMpDeatils/Record/EMPPERSONID))]]></bpws:transitionCondition>
+                                    </bpws:source>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+                                    <tibex:inputBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns=&quot;http://www.tibco.com/namespaces/tnt/plugins/jdbc+70709162-3b09-4541-9a4a-a1be16615e8c+input&quot; xmlns:tns1=&quot;http://www.example.org/EmployeeFusion&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:tib=&quot;http://www.tibco.com/bw/xslt/custom-functions&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;NewOperation.parameters&quot;/>&#xa;    &lt;xsl:template name=&quot;FetchEMpDeatils-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns:jdbcQueryActivityInput>&#xa;            &lt;FromDate>&#xa;                &lt;xsl:value-of select=&quot;tib:parse-dateTime('yyyy-MM-dd HH:mm:ss',$NewOperation.parameters/tns1:reportRequest/tns1:parameterNameValues/tns1:item[tns1:name='p_last_run_date']/tns1:values/tns1:item)&quot;/>&#xa;            &lt;/FromDate>&#xa;            &lt;ToDate>&#xa;                &lt;xsl:value-of select=&quot;tib:parse-dateTime('yyyy-MM-dd HH:mm:ss',$NewOperation.parameters/tns1:reportRequest/tns1:parameterNameValues/tns1:item[tns1:name='p_to_date']/tns1:values/tns1:item)&quot;/>&#xa;            &lt;/ToDate>&#xa;        &lt;/tns:jdbcQueryActivityInput>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:config>
+                                    <bwext:BWActivity
+                                    activityTypeID="bw.jdbc.JDBCQuery"
+                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                                    xmlns:jdbcPalette="http://ns.tibco.com/bw/palette/jdbc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                    <activityConfig>
+                                    <properties
+                                    name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/jdbc#//JDBCQueryActivity"/>
+                                    <value maxRows="100"
+                                    sharedResourceProperty="jdbcProperty"
+                                    sqlStatement="select * from persistentemployee where modifieddatetime BETWEEN ? and ?"
+                                    timeout="10" xsi:type="jdbcPalette:JDBCQueryActivity">
+
+                                    <PreparedParameters
+                                    DataType="12"
+                                    DataTypeDisplayValue="VARCHAR" ParameterName="FromDate"/>
+
+                                    <PreparedParameters
+                                    DataType="12"
+                                    DataTypeDisplayValue="VARCHAR" ParameterName="ToDate"/>
+                                    <columnMetadata
+                                    columnIndex="1"
+                                    columnName="EMPPERSONID"
+                                    dataType="-5" typeName="NUMBER"/>
+                                    <columnMetadata
+                                    columnIndex="2"
+                                    columnName="EMPCODE"
+                                    dataType="4" typeName="NUMBER"/>
+                                    <columnMetadata
+                                    columnIndex="3"
+                                    columnName="EMPUSERNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="4"
+                                    columnName="DUNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="5"
+                                    columnName="BUNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="6"
+                                    columnName="OUNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="7"
+                                    columnName="EMPDOJ"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="8"
+                                    columnName="EMPFIRSTNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="9"
+                                    columnName="EMPMIDDLENAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="10"
+                                    columnName="EMPLASTNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="11"
+                                    columnName="EMPFULLNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="12"
+                                    columnName="EMPEMAILID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="13"
+                                    columnName="MANAGERPERSONID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="14"
+                                    columnName="MANAGERFIRSTNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="15"
+                                    columnName="MANAGERLASTNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="16"
+                                    columnName="MANAGEREMAILID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="17"
+                                    columnName="EMPDUID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="18"
+                                    columnName="EMPDESIGNATION"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="19"
+                                    columnName="EMPPERSONTYPE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="20"
+                                    columnName="LOCATIONID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="21"
+                                    columnName="COUNTRYCODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="22"
+                                    columnName="COUNTRYNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="23"
+                                    columnName="GRADECODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="24"
+                                    columnName="MANAGEREMPCODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="25"
+                                    columnName="MODIFIEDDATETIME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="26"
+                                    columnName="EMPSTATUS"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="27"
+                                    columnName="LOCATIONNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="28"
+                                    columnName="ZWAYAMCANDIDATEID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="29"
+                                    columnName="DPNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="30"
+                                    columnName="DHNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="31"
+                                    columnName="ACTUALRELIEVINGDATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="32"
+                                    columnName="EXPECTEDRELIEVINGDATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="33"
+                                    columnName="LASTWORKINGDATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="34"
+                                    columnName="LOCATIONCODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="35"
+                                    columnName="EMPSTATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="36"
+                                    columnName="BUSINESSPHONENUMBER"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="37"
+                                    columnName="EMPFACILITY"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="38"
+                                    columnName="EMPFACILITYADDRESS"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="39"
+                                    columnName="ZIPCODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="40"
+                                    columnName="COMPANYNAME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="41"
+                                    columnName="CLIENTSITE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="42"
+                                    columnName="DEPUTATIONCLIENTLOCATION"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="43"
+                                    columnName="GENDER"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="44"
+                                    columnName="GRADEGROUP"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="45"
+                                    columnName="HEADHR"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="46"
+                                    columnName="PRM"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="47"
+                                    columnName="EXTENSION"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="48"
+                                    columnName="DUCODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="49"
+                                    columnName="BUCODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="50"
+                                    columnName="OUCODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="51"
+                                    columnName="VALIDFROMDATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="52"
+                                    columnName="VALIDTODATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="53"
+                                    columnName="EMPOFFICENUMBER"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="54"
+                                    columnName="EMPMOBILENUMBER"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="55"
+                                    columnName="EMPCOMPANYCODE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="56"
+                                    columnName="WORKATHOME"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="57"
+                                    columnName="EFFECTIVESTARTDATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="58"
+                                    columnName="EFFECTIVEENDDATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="59"
+                                    columnName="PROJECTEDASSIGNMENTEND"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="60"
+                                    columnName="EMPBUID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    <columnMetadata
+                                    columnIndex="61"
+                                    columnName="EMPOUID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    </value>
+                                    </properties>
+                                    </activityConfig>
+                                    </bwext:BWActivity>
+                                    </tibex:config>
+                                </tibex:activityExtension>
+                            </bpws:extensionActivity>
+                            <bpws:scope name="Iterate"
+                                tibex:group="iterate" tibex:xpdlId="8c0fc6d7-126b-4f2c-a948-2ed6b666d543">
+                                <bpws:targets>
+                                    <bpws:target linkName="JDBCQueryToIterate"/>
+                                </bpws:targets>
+                                <bpws:sources>
+                                    <bpws:source linkName="IterateToMapper1"/>
+                                </bpws:sources>
+                                <bpws:sequence name="sequence" tibex:group="iterate">
+                                    <bpws:assign name="GroupInit"
+                                    tibex:group="groupInit"
+                                    tibex:xpdlId="02d145b2-bbc6-4d59-a59c-68d5745dd63f" validate="no">
+                                    <bpws:copy>
+                                    <bpws:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"><![CDATA[<?xml version="1.0" encoding="UTF-8"?> <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns="http://tns.tibco.com/bw/palette/internal/accumulateoutput+9ef2869b-1c1b-4773-b5d0-ca28ea7c18ab" version="2.0"> <xsl:template name="Accumulate" match="/"> <tns:AccumulatedOutput/></xsl:template> </xsl:stylesheet>]]></bpws:from>
+                                    <bpws:to variable="Accumulate"/>
+                                    </bpws:copy>
+                                    </bpws:assign>
+                                    <bpws:forEach counterName="index"
+                                    name="iterate" parallel="no" tibex:group="iterate">
+                                    <tibex:DesignExpression name="variableList">
+                                    <tibex:expression
+                                    expression="$FetchEMpDeatils/Record" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"/>
+                                    </tibex:DesignExpression>
+                                    <bpws:startCounterValue><![CDATA[1]]></bpws:startCounterValue>
+                                    <bpws:finalCounterValue expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[count($FetchEMpDeatils/Record)]]></bpws:finalCounterValue>
+                                    <bpws:scope name="innerScope">
+                                    <bpws:variables>
+                                    <bpws:variable
+                                    element="ns3:Iterate_Current_Element_Record"
+                                    name="currentElement" sca-bpel:internal="true"/>
+                                    </bpws:variables>
+                                    <bpws:flow name="flow2">
+                                    <bpws:links>
+                                    <bpws:link
+                                    name="GroupStartToJDBCQuery1" tibex:linkType="SUCCESS"/>
+                                    <bpws:link
+                                    name="JDBCQuery1ToGroupEnd" tibex:linkType="SUCCESS"/>
+                                    <bpws:link
+                                    name="MapperToAccumulate" tibex:linkType="SUCCESS"/>
+                                    </bpws:links>
+                                    <bpws:assign
+                                    name="GroupStart"
+                                    tibex:group="groupStart"
+                                    tibex:xpdlId="3611eec5-a706-4ae2-9200-c3cb154e9f82" validate="no">
+                                    <bpws:sources>
+                                    <bpws:source linkName="GroupStartToJDBCQuery1"/>
+                                    </bpws:sources>
+                                    <bpws:copy>
+                                    <bpws:from expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"><![CDATA[($FetchEMpDeatils/Record)[number($index)]]]></bpws:from>
+                                    <bpws:to variable="currentElement"/>
+                                    </bpws:copy>
+                                    </bpws:assign>
+                                    <bpws:extensionActivity>
+
+                                    <tibex:activityExtension
+                                    name="Accumulate"
+                                    outputVariable="Accumulate"
+                                    tibex:group="groupEnd"
+                                    tibex:xpdlId="9ef2869b-1c1b-4773-b5d0-ca28ea7c18ab" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="MapperToAccumulate"/>
+                                    </bpws:targets>
+                                    <tibex:config>
+
+                                    <bwext:BWActivity
+                                    activityTypeID="bw.internal.accumulateend"
+                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                                    xmlns:internalactivities="http://ns.tibco.com/bw/core/internalactivity" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                    <activityConfig>
+
+                                    <properties
+                                    name="config" xsi:type="activityconfig:EMFProperty">
+
+                                    <type href="http://ns.tibco.com/bw/core/internalactivity#//AccumulateEnd"/>
+
+                                    <value xsi:type="internalactivities:AccumulateEnd">
+                                    <activityNames>Mapper</activityNames>
+                                    </value>
+                                    </properties>
+                                    </activityConfig>
+                                    </bwext:BWActivity>
+                                    </tibex:config>
+                                    </tibex:activityExtension>
+                                    </bpws:extensionActivity>
+                                    <bpws:extensionActivity>
+
+                                    <tibex:activityExtension
+                                    inputVariable="FetchLeaveData-input"
+                                    name="FetchLeaveData"
+                                    outputVariable="FetchLeaveData"
+                                    tibex:xpdlId="2aeadc13-552e-445b-81c7-dfa0f75ef818" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="GroupStartToJDBCQuery1"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="JDBCQuery1ToGroupEnd"/>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+
+                                    <tibex:inputBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns2=&quot;http://www.tibco.com/namespaces/tnt/plugins/jdbc+2aeadc13-552e-445b-81c7-dfa0f75ef818+input&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;currentElement&quot;/>&lt;xsl:template name=&quot;JDBCQuery1-input&quot; match=&quot;/&quot;>&lt;tns2:jdbcQueryActivityInput>&lt;EMPPERSONID>&lt;xsl:value-of select=&quot;$currentElement/EMPPERSONID&quot;/>&lt;/EMPPERSONID>&lt;/tns2:jdbcQueryActivityInput>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:config>
+
+                                    <bwext:BWActivity
+                                    activityTypeID="bw.jdbc.JDBCQuery"
+                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                                    xmlns:jdbcPalette="http://ns.tibco.com/bw/palette/jdbc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                    <activityConfig>
+
+                                    <properties
+                                    name="config" xsi:type="activityconfig:EMFProperty">
+
+                                    <type href="http://ns.tibco.com/bw/palette/jdbc#//JDBCQueryActivity"/>
+
+                                    <value
+                                    maxRows="100"
+                                    sharedResourceProperty="jdbcProperty"
+                                    sqlStatement="SELECT *&#xa;  FROM PERSISTENTLEAVEDATA where EMPPERSONID=?&#xa;"
+                                    timeout="10" xsi:type="jdbcPalette:JDBCQueryActivity">
+
+                                    <PreparedParameters
+                                    DataType="12"
+                                    DataTypeDisplayValue="VARCHAR" ParameterName="EMPPERSONID"/>
+
+                                    <columnMetadata
+                                    columnIndex="1"
+                                    columnName="EMPPERSONID"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+
+                                    <columnMetadata
+                                    columnIndex="2"
+                                    columnName="ABSENCETYPE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+
+                                    <columnMetadata
+                                    columnIndex="3"
+                                    columnName="ABSENCESTARTDATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+
+                                    <columnMetadata
+                                    columnIndex="4"
+                                    columnName="ABSENCEENDDATE"
+                                    dataType="12"
+                                    status="OptionalElement" typeName="VARCHAR2"/>
+                                    </value>
+                                    </properties>
+                                    </activityConfig>
+                                    </bwext:BWActivity>
+                                    </tibex:config>
+                                    </tibex:activityExtension>
+                                    </bpws:extensionActivity>
+                                    <bpws:extensionActivity>
+
+                                    <tibex:activityExtension
+                                    inputVariable="Mapper-input"
+                                    name="Mapper"
+                                    outputVariable="Mapper"
+                                    tibex:xpdlId="98fbf7e3-6718-473d-b0a7-7f2c61d46a6b" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="JDBCQuery1ToGroupEnd"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="MapperToAccumulate"/>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+
+                                    <tibex:inputBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns3=&quot;http://www.Tibco.org/EmployeeMaster&quot; xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;FetchLeaveData&quot;/>&#xa;    &lt;xsl:template name=&quot;Mapper-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns3:absenceDataRoot>&#xa;            &lt;xsl:for-each select=&quot;$FetchLeaveData/Record&quot;>&#xa;                &lt;tns3:absenceData>&#xa;                    &lt;tns3:empPersonId>&#xa;                        &lt;xsl:value-of select=&quot;xsd:long(EMPPERSONID)&quot;/>&#xa;                    &lt;/tns3:empPersonId>&#xa;                    &lt;xsl:if test=&quot;ABSENCETYPE&quot;>&#xa;                        &lt;tns3:absenceType>&#xa;                            &lt;xsl:value-of select=&quot;ABSENCETYPE&quot;/>&#xa;                        &lt;/tns3:absenceType>&#xa;                    &lt;/xsl:if>&#xa;                    &lt;tns3:absenceStartDate>&#xa;                        &lt;xsl:value-of select=&quot;xsd:date(ABSENCESTARTDATE)&quot;/>&#xa;                    &lt;/tns3:absenceStartDate>&#xa;                    &lt;tns3:absenceEndDate>&#xa;                        &lt;xsl:value-of select=&quot;xsd:date(ABSENCEENDDATE)&quot;/>&#xa;                    &lt;/tns3:absenceEndDate>&#xa;                &lt;/tns3:absenceData>&#xa;            &lt;/xsl:for-each>&#xa;        &lt;/tns3:absenceDataRoot>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:config>
+
+                                    <bwext:BWActivity
+                                    activityTypeID="bw.generalactivities.mapper"
+                                    version="6.0.0.001"
+                                    xmlns:EmployeeMaster="http://www.Tibco.org/EmployeeMaster"
+                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                                    xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                    <activityConfig>
+
+                                    <properties
+                                    name="config" xsi:type="activityconfig:EMFProperty">
+
+                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Mapper"/>
+
+                                    <value
+                                    inputQName="EmployeeMaster:absenceDataRoot" xsi:type="generalactivities:Mapper"/>
+                                    </properties>
+                                    </activityConfig>
+                                    </bwext:BWActivity>
+                                    </tibex:config>
+                                    </tibex:activityExtension>
+                                    </bpws:extensionActivity>
+                                    </bpws:flow>
+                                    </bpws:scope>
+                                    </bpws:forEach>
+                                </bpws:sequence>
+                            </bpws:scope>
+                            <bpws:extensionActivity>
+                                <tibex:activityExtension
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.example.org/EmployeeFusion&quot; xmlns:tns3=&quot;http://www.Tibco.org/EmployeeMaster&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;FetchEMpDeatils&quot;/>&lt;xsl:param name=&quot;Accumulate&quot;/>&lt;xsl:param name=&quot;NewOperation&quot;/>&lt;xsl:template name=&quot;empData-input&quot; match=&quot;/&quot;>&lt;tns1:DATA_DS>&lt;tns1:P_LAST_RUN_DATE>&lt;xsl:value-of select=&quot;$NewOperation/parameters/tns1:runReport/tns1:reportRequest/tns1:parameterNameValues/tns1:item[tns1:name='p_last_run_date']/tns1:values/tns1:item&quot;/>&lt;/tns1:P_LAST_RUN_DATE>&lt;xsl:for-each select=&quot;$FetchEMpDeatils/Record&quot;>&lt;tns1:G_2>&lt;tns1:EMP_PERSONID>&lt;xsl:value-of select=&quot;EMPPERSONID&quot;/>&lt;/tns1:EMP_PERSONID>&lt;tns1:EMP_PERSON_NUMBER>&lt;xsl:value-of select=&quot;EMPCODE&quot;/>&lt;/tns1:EMP_PERSON_NUMBER>&lt;tns1:EMP_USERNAME>&lt;xsl:value-of select=&quot;EMPUSERNAME&quot;/>&lt;/tns1:EMP_USERNAME>&lt;tns1:DU_NAME>&lt;xsl:value-of select=&quot;DUNAME&quot;/>&lt;/tns1:DU_NAME>&lt;tns1:BU_NAME>&lt;xsl:value-of select=&quot;BUNAME&quot;/>&lt;/tns1:BU_NAME>&lt;tns1:OU_NAME>&lt;xsl:value-of select=&quot;OUNAME&quot;/>&lt;/tns1:OU_NAME>&lt;tns1:EMP_DOJ>&lt;xsl:value-of select=&quot;EMPDOJ&quot;/>&lt;/tns1:EMP_DOJ>&lt;tns1:EMP_FIRST_NAME>&lt;xsl:value-of select=&quot;EMPFIRSTNAME&quot;/>&lt;/tns1:EMP_FIRST_NAME>&lt;xsl:if test=&quot;EMPMIDDLENAME&quot;>&lt;tns1:EMP_MIDDLE_NAMES>&lt;xsl:value-of select=&quot;EMPMIDDLENAME&quot;/>&lt;/tns1:EMP_MIDDLE_NAMES>&lt;/xsl:if>&lt;tns1:EMP_LAST_NAME>&lt;xsl:value-of select=&quot;EMPLASTNAME&quot;/>&lt;/tns1:EMP_LAST_NAME>&lt;tns1:EMP_FULL_NAME>&lt;xsl:value-of select=&quot;EMPFULLNAME&quot;/>&lt;/tns1:EMP_FULL_NAME>&lt;tns1:EMP_EMAIL_ADDRESS>&lt;xsl:value-of select=&quot;EMPEMAILID&quot;/>&lt;/tns1:EMP_EMAIL_ADDRESS>&lt;tns1:MGR_PERSONID>&lt;xsl:value-of select=&quot;MANAGERPERSONID&quot;/>&lt;/tns1:MGR_PERSONID>&lt;tns1:MGR_FIRST_NAME>&lt;xsl:value-of select=&quot;MANAGERFIRSTNAME&quot;/>&lt;/tns1:MGR_FIRST_NAME>&lt;tns1:MGR_LAST_NAME>&lt;xsl:value-of select=&quot;MANAGERLASTNAME&quot;/>&lt;/tns1:MGR_LAST_NAME>&lt;tns1:MGR_EMAIL_ADDRESS>&lt;xsl:value-of select=&quot;MANAGEREMAILID&quot;/>&lt;/tns1:MGR_EMAIL_ADDRESS>&lt;tns1:EMP_DU_ID>&lt;xsl:value-of select=&quot;EMPDUID&quot;/>&lt;/tns1:EMP_DU_ID>&lt;tns1:EMP_DESIGNATION>&lt;xsl:value-of select=&quot;EMPDESIGNATION&quot;/>&lt;/tns1:EMP_DESIGNATION>&lt;tns1:EMP_PERSON_TYPE>&lt;xsl:value-of select=&quot;EMPPERSONTYPE&quot;/>&lt;/tns1:EMP_PERSON_TYPE>&lt;tns1:LOCATION_ID>&lt;xsl:value-of select=&quot;LOCATIONID&quot;/>&lt;/tns1:LOCATION_ID>&lt;tns1:COUNTRY_CODE>&lt;xsl:value-of select=&quot;COUNTRYCODE&quot;/>&lt;/tns1:COUNTRY_CODE>&lt;tns1:COUNTRY_NAME>&lt;xsl:value-of select=&quot;COUNTRYNAME&quot;/>&lt;/tns1:COUNTRY_NAME>&lt;tns1:GRADE_CODE>&lt;xsl:value-of select=&quot;GRADECODE&quot;/>&lt;/tns1:GRADE_CODE>&lt;tns1:MGR_PERSON_NUMBER>&lt;xsl:value-of select=&quot;MANAGEREMPCODE&quot;/>&lt;/tns1:MGR_PERSON_NUMBER>&lt;tns1:LAST_UPDATE_DATE>&lt;xsl:value-of select=&quot;MODIFIEDDATETIME&quot;/>&lt;/tns1:LAST_UPDATE_DATE>&lt;tns1:EMP_STATUS>&lt;xsl:value-of select=&quot;EMPSTATUS&quot;/>&lt;/tns1:EMP_STATUS>&lt;tns1:LOCATION_NAME>&lt;xsl:value-of select=&quot;LOCATIONNAME&quot;/>&lt;/tns1:LOCATION_NAME>&lt;tns1:DPNAME>&lt;xsl:value-of select=&quot;DPNAME&quot;/>&lt;/tns1:DPNAME>&lt;tns1:DHNAME>&lt;xsl:value-of select=&quot;DHNAME&quot;/>&lt;/tns1:DHNAME>&lt;tns1:LOCATION_CODE>&lt;xsl:value-of select=&quot;LOCATIONCODE&quot;/>&lt;/tns1:LOCATION_CODE>&lt;tns1:EMP_STATE>&lt;xsl:value-of select=&quot;EMPSTATE&quot;/>&lt;/tns1:EMP_STATE>&lt;tns1:EMP_FACILITY>&lt;xsl:value-of select=&quot;EMPFACILITY&quot;/>&lt;/tns1:EMP_FACILITY>&lt;tns1:EMP_FACILITY_ADDRESS>&lt;xsl:value-of select=&quot;EMPFACILITYADDRESS&quot;/>&lt;/tns1:EMP_FACILITY_ADDRESS>&lt;tns1:ZIP_CODE>&lt;xsl:value-of select=&quot;ZIPCODE&quot;/>&lt;/tns1:ZIP_CODE>&lt;tns1:JOININGCMP>&lt;xsl:value-of select=&quot;COMPANYNAME&quot;/>&lt;/tns1:JOININGCMP>&lt;xsl:if test=&quot;CLIENTSITE&quot;>&lt;tns1:CLIENTSITE>&lt;xsl:value-of select=&quot;CLIENTSITE&quot;/>&lt;/tns1:CLIENTSITE>&lt;/xsl:if>&lt;tns1:GENDER>&lt;xsl:value-of select=&quot;GENDER&quot;/>&lt;/tns1:GENDER>&lt;tns1:GRADEGROUP>&lt;xsl:value-of select=&quot;GRADEGROUP&quot;/>&lt;/tns1:GRADEGROUP>&lt;tns1:_P_LAST_RUN_DATE>&lt;xsl:value-of select=&quot;current-dateTime()&quot;/>&lt;/tns1:_P_LAST_RUN_DATE>&lt;tns1:HEADHR>&lt;xsl:value-of select=&quot;HEADHR&quot;/>&lt;/tns1:HEADHR>&lt;tns1:PRM>&lt;xsl:value-of select=&quot;PRM&quot;/>&lt;/tns1:PRM>&lt;tns1:DUCODE>&lt;xsl:value-of select=&quot;DUCODE&quot;/>&lt;/tns1:DUCODE>&lt;tns1:BUCODE>&lt;xsl:value-of select=&quot;BUCODE&quot;/>&lt;/tns1:BUCODE>&lt;tns1:OUCODE>&lt;xsl:value-of select=&quot;OUCODE&quot;/>&lt;/tns1:OUCODE>&lt;tns1:VALIDFROMDATE>&lt;xsl:value-of select=&quot;VALIDFROMDATE&quot;/>&lt;/tns1:VALIDFROMDATE>&lt;tns1:VALIDTODATE>&lt;xsl:value-of select=&quot;VALIDTODATE&quot;/>&lt;/tns1:VALIDTODATE>&lt;xsl:if test=&quot;EMPOFFICENUMBER&quot;>&lt;tns1:EMP_OFFICE_NUMBER>&lt;xsl:value-of select=&quot;EMPOFFICENUMBER&quot;/>&lt;/tns1:EMP_OFFICE_NUMBER>&lt;/xsl:if>&lt;tns1:EMP_COMPANY_CODE>&lt;xsl:value-of select=&quot;EMPCOMPANYCODE&quot;/>&lt;/tns1:EMP_COMPANY_CODE>&lt;xsl:if test=&quot;WORKATHOME&quot;>&lt;tns1:WORK_AT_HOME>&lt;xsl:value-of select=&quot;WORKATHOME&quot;/>&lt;/tns1:WORK_AT_HOME>&lt;/xsl:if>&lt;xsl:variable name=&quot;var&quot; select=&quot;current()/EMPPERSONID&quot;/>&lt;xsl:for-each select=&quot;$Accumulate/tns3:absenceDataRoot/tns3:absenceData[tns3:empPersonId=$var]&quot;>&lt;tns1:G_1>&lt;tns1:PERSON_ID>&lt;xsl:value-of select=&quot;tns3:empPersonId&quot;/>&lt;/tns1:PERSON_ID>&lt;tns1:ABSENCE_TYPE>&lt;xsl:value-of select=&quot;tns3:absenceType&quot;/>&lt;/tns1:ABSENCE_TYPE>&lt;tns1:ABSENCE_START_DATE>&lt;xsl:value-of select=&quot;tns3:absenceStartDate&quot;/>&lt;/tns1:ABSENCE_START_DATE>&lt;tns1:ABSENCE_END_DATE>&lt;xsl:value-of select=&quot;tns3:absenceEndDate&quot;/>&lt;/tns1:ABSENCE_END_DATE>&lt;/tns1:G_1>&lt;/xsl:for-each>&lt;/tns1:G_2>&lt;/xsl:for-each>&lt;/tns1:DATA_DS>&lt;/xsl:template>&lt;/xsl:stylesheet>"
+                                    expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"
+                                    inputVariable="empData-input"
+                                    name="empData"
+                                    outputVariable="empData"
+                                    tibex:xpdlId="2102fa0d-7462-4ac9-8f29-51cf9d9c83bb" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="IterateToMapper1"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="Mapper1ToNewOperationOut"/>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+                                    <tibex:inputBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.example.org/EmployeeFusion&quot; xmlns:tns3=&quot;http://www.Tibco.org/EmployeeMaster&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;NewOperation.parameters&quot;/>&#xa;    &lt;xsl:param name=&quot;FetchEMpDeatils&quot;/>&#xa;    &lt;xsl:param name=&quot;Accumulate&quot;/>&#xa;    &lt;xsl:template name=&quot;empData-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns1:DATA_DS>&#xa;            &lt;tns1:P_LAST_RUN_DATE>&#xa;                &lt;xsl:value-of select=&quot;$NewOperation.parameters/tns1:reportRequest/tns1:parameterNameValues/tns1:item[tns1:name='p_last_run_date']/tns1:values/tns1:item&quot;/>&#xa;            &lt;/tns1:P_LAST_RUN_DATE>&#xa;            &lt;xsl:for-each select=&quot;$FetchEMpDeatils/Record&quot;>&#xa;                &lt;tns1:G_2>&#xa;                    &lt;tns1:EMP_PERSONID>&#xa;                        &lt;xsl:value-of select=&quot;EMPPERSONID&quot;/>&#xa;                    &lt;/tns1:EMP_PERSONID>&#xa;                    &lt;tns1:EMP_PERSON_NUMBER>&#xa;                        &lt;xsl:value-of select=&quot;EMPCODE&quot;/>&#xa;                    &lt;/tns1:EMP_PERSON_NUMBER>&#xa;                    &lt;tns1:EMP_USERNAME>&#xa;                        &lt;xsl:value-of select=&quot;EMPUSERNAME&quot;/>&#xa;                    &lt;/tns1:EMP_USERNAME>&#xa;                    &lt;tns1:DU_NAME>&#xa;                        &lt;xsl:value-of select=&quot;DUNAME&quot;/>&#xa;                    &lt;/tns1:DU_NAME>&#xa;                    &lt;tns1:BU_NAME>&#xa;                        &lt;xsl:value-of select=&quot;BUNAME&quot;/>&#xa;                    &lt;/tns1:BU_NAME>&#xa;                    &lt;tns1:OU_NAME>&#xa;                        &lt;xsl:value-of select=&quot;OUNAME&quot;/>&#xa;                    &lt;/tns1:OU_NAME>&#xa;                    &lt;tns1:EMP_DOJ>&#xa;                        &lt;xsl:value-of select=&quot;EMPDOJ&quot;/>&#xa;                    &lt;/tns1:EMP_DOJ>&#xa;                    &lt;tns1:EMP_FIRST_NAME>&#xa;                        &lt;xsl:value-of select=&quot;EMPFIRSTNAME&quot;/>&#xa;                    &lt;/tns1:EMP_FIRST_NAME>&#xa;                    &lt;xsl:if test=&quot;EMPMIDDLENAME&quot;>&#xa;                        &lt;tns1:EMP_MIDDLE_NAMES>&#xa;                            &lt;xsl:value-of select=&quot;EMPMIDDLENAME&quot;/>&#xa;                        &lt;/tns1:EMP_MIDDLE_NAMES>&#xa;                    &lt;/xsl:if>&#xa;                    &lt;tns1:EMP_LAST_NAME>&#xa;                        &lt;xsl:value-of select=&quot;EMPLASTNAME&quot;/>&#xa;                    &lt;/tns1:EMP_LAST_NAME>&#xa;                    &lt;tns1:EMP_FULL_NAME>&#xa;                        &lt;xsl:value-of select=&quot;EMPFULLNAME&quot;/>&#xa;                    &lt;/tns1:EMP_FULL_NAME>&#xa;                    &lt;tns1:EMP_EMAIL_ADDRESS>&#xa;                        &lt;xsl:value-of select=&quot;EMPEMAILID&quot;/>&#xa;                    &lt;/tns1:EMP_EMAIL_ADDRESS>&#xa;                    &lt;tns1:MGR_PERSONID>&#xa;                        &lt;xsl:value-of select=&quot;MANAGERPERSONID&quot;/>&#xa;                    &lt;/tns1:MGR_PERSONID>&#xa;                    &lt;tns1:MGR_FIRST_NAME>&#xa;                        &lt;xsl:value-of select=&quot;MANAGERFIRSTNAME&quot;/>&#xa;                    &lt;/tns1:MGR_FIRST_NAME>&#xa;                    &lt;tns1:MGR_LAST_NAME>&#xa;                        &lt;xsl:value-of select=&quot;MANAGERLASTNAME&quot;/>&#xa;                    &lt;/tns1:MGR_LAST_NAME>&#xa;                    &lt;tns1:MGR_EMAIL_ADDRESS>&#xa;                        &lt;xsl:value-of select=&quot;MANAGEREMAILID&quot;/>&#xa;                    &lt;/tns1:MGR_EMAIL_ADDRESS>&#xa;                    &lt;tns1:EMP_DU_ID>&#xa;                        &lt;xsl:value-of select=&quot;EMPDUID&quot;/>&#xa;                    &lt;/tns1:EMP_DU_ID>&#xa;                    &lt;tns1:EMP_DESIGNATION>&#xa;                        &lt;xsl:value-of select=&quot;EMPDESIGNATION&quot;/>&#xa;                    &lt;/tns1:EMP_DESIGNATION>&#xa;                    &lt;tns1:EMP_PERSON_TYPE>&#xa;                        &lt;xsl:value-of select=&quot;EMPPERSONTYPE&quot;/>&#xa;                    &lt;/tns1:EMP_PERSON_TYPE>&#xa;                    &lt;tns1:LOCATION_ID>&#xa;                        &lt;xsl:value-of select=&quot;LOCATIONID&quot;/>&#xa;                    &lt;/tns1:LOCATION_ID>&#xa;                    &lt;tns1:COUNTRY_CODE>&#xa;                        &lt;xsl:value-of select=&quot;COUNTRYCODE&quot;/>&#xa;                    &lt;/tns1:COUNTRY_CODE>&#xa;                    &lt;tns1:COUNTRY_NAME>&#xa;                        &lt;xsl:value-of select=&quot;COUNTRYNAME&quot;/>&#xa;                    &lt;/tns1:COUNTRY_NAME>&#xa;                    &lt;tns1:GRADE_CODE>&#xa;                        &lt;xsl:value-of select=&quot;GRADECODE&quot;/>&#xa;                    &lt;/tns1:GRADE_CODE>&#xa;                    &lt;tns1:MGR_PERSON_NUMBER>&#xa;                        &lt;xsl:value-of select=&quot;MANAGEREMPCODE&quot;/>&#xa;                    &lt;/tns1:MGR_PERSON_NUMBER>&#xa;                    &lt;tns1:LAST_UPDATE_DATE>&#xa;                        &lt;xsl:value-of select=&quot;MODIFIEDDATETIME&quot;/>&#xa;                    &lt;/tns1:LAST_UPDATE_DATE>&#xa;                    &lt;tns1:EMP_STATUS>&#xa;                        &lt;xsl:value-of select=&quot;EMPSTATUS&quot;/>&#xa;                    &lt;/tns1:EMP_STATUS>&#xa;                    &lt;tns1:LOCATION_NAME>&#xa;                        &lt;xsl:value-of select=&quot;LOCATIONNAME&quot;/>&#xa;                    &lt;/tns1:LOCATION_NAME>&#xa;                    &lt;tns1:DPNAME>&#xa;                        &lt;xsl:value-of select=&quot;DPNAME&quot;/>&#xa;                    &lt;/tns1:DPNAME>&#xa;                    &lt;tns1:DHNAME>&#xa;                        &lt;xsl:value-of select=&quot;DHNAME&quot;/>&#xa;                    &lt;/tns1:DHNAME>&#xa;                    &lt;tns1:LOCATION_CODE>&#xa;                        &lt;xsl:value-of select=&quot;LOCATIONCODE&quot;/>&#xa;                    &lt;/tns1:LOCATION_CODE>&#xa;                    &lt;tns1:EMP_STATE>&#xa;                        &lt;xsl:value-of select=&quot;EMPSTATE&quot;/>&#xa;                    &lt;/tns1:EMP_STATE>&#xa;                    &lt;tns1:EMP_FACILITY>&#xa;                        &lt;xsl:value-of select=&quot;EMPFACILITY&quot;/>&#xa;                    &lt;/tns1:EMP_FACILITY>&#xa;                    &lt;tns1:EMP_FACILITY_ADDRESS>&#xa;                        &lt;xsl:value-of select=&quot;EMPFACILITYADDRESS&quot;/>&#xa;                    &lt;/tns1:EMP_FACILITY_ADDRESS>&#xa;                    &lt;tns1:ZIP_CODE>&#xa;                        &lt;xsl:value-of select=&quot;ZIPCODE&quot;/>&#xa;                    &lt;/tns1:ZIP_CODE>&#xa;                    &lt;tns1:JOININGCMP>&#xa;                        &lt;xsl:value-of select=&quot;COMPANYNAME&quot;/>&#xa;                    &lt;/tns1:JOININGCMP>&#xa;                    &lt;xsl:if test=&quot;CLIENTSITE&quot;>&#xa;                        &lt;tns1:CLIENTSITE>&#xa;                            &lt;xsl:value-of select=&quot;CLIENTSITE&quot;/>&#xa;                        &lt;/tns1:CLIENTSITE>&#xa;                    &lt;/xsl:if>&#xa;                    &lt;tns1:GENDER>&#xa;                        &lt;xsl:value-of select=&quot;GENDER&quot;/>&#xa;                    &lt;/tns1:GENDER>&#xa;                    &lt;tns1:GRADEGROUP>&#xa;                        &lt;xsl:value-of select=&quot;GRADEGROUP&quot;/>&#xa;                    &lt;/tns1:GRADEGROUP>&#xa;                    &lt;tns1:_P_LAST_RUN_DATE>&#xa;                        &lt;xsl:value-of select=&quot;current-dateTime()&quot;/>&#xa;                    &lt;/tns1:_P_LAST_RUN_DATE>&#xa;                    &lt;tns1:HEADHR>&#xa;                        &lt;xsl:value-of select=&quot;HEADHR&quot;/>&#xa;                    &lt;/tns1:HEADHR>&#xa;                    &lt;tns1:PRM>&#xa;                        &lt;xsl:value-of select=&quot;PRM&quot;/>&#xa;                    &lt;/tns1:PRM>&#xa;                    &lt;tns1:DUCODE>&#xa;                        &lt;xsl:value-of select=&quot;DUCODE&quot;/>&#xa;                    &lt;/tns1:DUCODE>&#xa;                    &lt;tns1:BUCODE>&#xa;                        &lt;xsl:value-of select=&quot;BUCODE&quot;/>&#xa;                    &lt;/tns1:BUCODE>&#xa;                    &lt;tns1:OUCODE>&#xa;                        &lt;xsl:value-of select=&quot;OUCODE&quot;/>&#xa;                    &lt;/tns1:OUCODE>&#xa;                    &lt;tns1:VALIDFROMDATE>&#xa;                        &lt;xsl:value-of select=&quot;VALIDFROMDATE&quot;/>&#xa;                    &lt;/tns1:VALIDFROMDATE>&#xa;                    &lt;tns1:VALIDTODATE>&#xa;                        &lt;xsl:value-of select=&quot;VALIDTODATE&quot;/>&#xa;                    &lt;/tns1:VALIDTODATE>&#xa;                    &lt;xsl:if test=&quot;EMPOFFICENUMBER&quot;>&#xa;                        &lt;tns1:EMP_OFFICE_NUMBER>&#xa;                            &lt;xsl:value-of select=&quot;EMPOFFICENUMBER&quot;/>&#xa;                        &lt;/tns1:EMP_OFFICE_NUMBER>&#xa;                    &lt;/xsl:if>&#xa;                    &lt;tns1:EMP_COMPANY_CODE>&#xa;                        &lt;xsl:value-of select=&quot;EMPCOMPANYCODE&quot;/>&#xa;                    &lt;/tns1:EMP_COMPANY_CODE>&#xa;                    &lt;xsl:if test=&quot;WORKATHOME&quot;>&#xa;                        &lt;tns1:WORK_AT_HOME>&#xa;                            &lt;xsl:value-of select=&quot;WORKATHOME&quot;/>&#xa;                        &lt;/tns1:WORK_AT_HOME>&#xa;                    &lt;/xsl:if>&#xa;                    &lt;xsl:variable name=&quot;var&quot; select=&quot;current()/EMPPERSONID&quot;/>&#xa;                    &lt;xsl:for-each select=&quot;$Accumulate/tns3:absenceDataRoot/tns3:absenceData[tns3:empPersonId=$var]&quot;>&#xa;                        &lt;tns1:G_1>&#xa;                            &lt;tns1:PERSON_ID>&#xa;                                &lt;xsl:value-of select=&quot;tns3:empPersonId&quot;/>&#xa;                            &lt;/tns1:PERSON_ID>&#xa;                            &lt;tns1:ABSENCE_TYPE>&#xa;                                &lt;xsl:value-of select=&quot;tns3:absenceType&quot;/>&#xa;                            &lt;/tns1:ABSENCE_TYPE>&#xa;                            &lt;tns1:ABSENCE_START_DATE>&#xa;                                &lt;xsl:value-of select=&quot;tns3:absenceStartDate&quot;/>&#xa;                            &lt;/tns1:ABSENCE_START_DATE>&#xa;                            &lt;tns1:ABSENCE_END_DATE>&#xa;                                &lt;xsl:value-of select=&quot;tns3:absenceEndDate&quot;/>&#xa;                            &lt;/tns1:ABSENCE_END_DATE>&#xa;                        &lt;/tns1:G_1>&#xa;                    &lt;/xsl:for-each>&#xa;                &lt;/tns1:G_2>&#xa;            &lt;/xsl:for-each>&#xa;        &lt;/tns1:DATA_DS>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:config>
+                                    <bwext:BWActivity
+                                    activityTypeID="bw.generalactivities.mapper"
+                                    version="6.0.0.001"
+                                    xmlns:EmployeeFusion="http://www.example.org/EmployeeFusion"
+                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                                    xmlns:generalactivities="http://ns.tibco.com/bw/palette/generalactivities" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                    <activityConfig>
+                                    <properties
+                                    name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/generalactivities#//Mapper"/>
+                                    <value
+                                    inputQName="EmployeeFusion:DATA_DS" xsi:type="generalactivities:Mapper"/>
+                                    </properties>
+                                    </activityConfig>
+                                    </bwext:BWActivity>
+                                    </tibex:config>
+                                </tibex:activityExtension>
+                            </bpws:extensionActivity>
+                            <bpws:extensionActivity>
+                                <tibex:activityExtension
+                                    inputVariable="RenderXml-input"
+                                    name="RenderXml"
+                                    outputVariable="RenderXml"
+                                    tibex:copyOf="empData"
+                                    tibex:xpdlId="eda1c95d-4fa1-4128-af7b-2d78e8234975" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="Mapper1ToNewOperationOut"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="RenderXmlToNewOperationOut"/>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+                                    <tibex:inputBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; version=&quot;2.0&quot;>&lt;xsl:param name=&quot;empData&quot;/>&lt;xsl:template name=&quot;RenderXml-input&quot; match=&quot;/&quot;>&lt;xsl:copy-of select=&quot;$empData&quot;/>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:config>
+                                    <bwext:BWActivity
+                                    activityTypeID="bw.xml.renderxml"
+                                    version="6.0.0.20121128"
+                                    xmlns:EmployeeFusion="http://www.example.org/EmployeeFusion"
+                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                                    xmlns:palettexml="http://ns.tibco.com/bw/palette/xmlpalette" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                    <activityConfig>
+                                    <properties
+                                    name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/xmlpalette#//RenderXml"/>
+                                    <value
+                                    inputElementQName="EmployeeFusion:DATA_DS"
+                                    outputStyle="text" xsi:type="palettexml:RenderXml"/>
+                                    </properties>
+                                    </activityConfig>
+                                    </bwext:BWActivity>
+                                    </tibex:config>
+                                </tibex:activityExtension>
+                            </bpws:extensionActivity>
+                            <bpws:extensionActivity>
+                                <tibex:activityExtension
+                                    inputVariable="RenderXml1-input"
+                                    name="RenderXml1"
+                                    outputVariable="RenderXml1"
+                                    tibex:xpdlId="81d17229-86d2-4d54-8c82-6aab56db6d80" xmlns:tibex="http://www.tibco.com/bpel/2007/extensions">
+                                    <bpws:targets>
+                                    <bpws:target linkName="FetchEMpDeatilsToRenderXml1"/>
+                                    </bpws:targets>
+                                    <bpws:sources>
+                                    <bpws:source linkName="RenderXml1ToReply"/>
+                                    </bpws:sources>
+                                    <tibex:inputBindings>
+                                    <tibex:inputBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns1=&quot;http://www.example.org/EmployeeFusion&quot; version=&quot;2.0&quot;>&lt;xsl:template name=&quot;RenderXml1-input&quot; match=&quot;/&quot;>&lt;tns1:DATA_DS>&lt;tns1:P_LAST_RUN_DATE>&lt;xsl:value-of select=&quot;''&quot;/>&lt;/tns1:P_LAST_RUN_DATE>&lt;/tns1:DATA_DS>&lt;/xsl:template>&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                    </tibex:inputBindings>
+                                    <tibex:config>
+                                    <bwext:BWActivity
+                                    activityTypeID="bw.xml.renderxml"
+                                    version="6.0.0.20121128"
+                                    xmlns:EmployeeFusion="http://www.example.org/EmployeeFusion"
+                                    xmlns:activityconfig="http://tns.tibco.com/bw/model/activityconfig"
+                                    xmlns:bwext="http://tns.tibco.com/bw/model/core/bwext"
+                                    xmlns:palettexml="http://ns.tibco.com/bw/palette/xmlpalette" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                                    <activityConfig>
+                                    <properties
+                                    name="config" xsi:type="activityconfig:EMFProperty">
+                                    <type href="http://ns.tibco.com/bw/palette/xmlpalette#//RenderXml"/>
+                                    <value
+                                    inputElementQName="EmployeeFusion:DATA_DS"
+                                    outputStyle="text" xsi:type="palettexml:RenderXml"/>
+                                    </properties>
+                                    </activityConfig>
+                                    </bwext:BWActivity>
+                                    </tibex:config>
+                                </tibex:activityExtension>
+                            </bpws:extensionActivity>
+                            <bpws:reply name="Reply"
+                                operation="NewOperation"
+                                partnerLink="Fusion"
+                                portType="ns1:Fusion"
+                                tibex:xpdlId="6953849b-f718-4f7d-90ce-bf7e28a9c384" variable="Reply-input">
+                                <tibex:inputBinding expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tns4="http://xmlns.oracle.com/oxp/service/PublicReportService" xmlns:tns1="http://www.example.org/EmployeeFusion" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" version="2.0"&gt;&lt;xsl:param name="RenderXml1"/&gt;&lt;xsl:template name="Reply-input" match="/"&gt;&lt;tns4:NewOperationResponse&gt;&lt;parameters&gt;&lt;tns1:runReportResponse&gt;&lt;tns1:runReportReturn&gt;&lt;tns1:reportBytes&gt;&lt;xsl:value-of select="tib:string-to-base64($RenderXml1)"/&gt;&lt;/tns1:reportBytes&gt;&lt;tns1:reportContentType&gt;&lt;xsl:value-of select="'text/xml'"/&gt;&lt;/tns1:reportContentType&gt;&lt;tns1:reportFileID&gt;&lt;xsl:value-of select="''"/&gt;&lt;/tns1:reportFileID&gt;&lt;tns1:reportLocale&gt;&lt;xsl:value-of select="''"/&gt;&lt;/tns1:reportLocale&gt;&lt;tns1:metaDataList&gt;&lt;xsl:value-of select="''"/&gt;&lt;/tns1:metaDataList&gt;&lt;/tns1:runReportReturn&gt;&lt;/tns1:runReportResponse&gt;&lt;/parameters&gt;&lt;/tns4:NewOperationResponse&gt;&lt;/xsl:template&gt;&lt;/xsl:stylesheet&gt;</tibex:inputBinding>
+                                <tibex:inputBindings>
+                                    <tibex:partBinding
+                                    expression="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xa;&lt;xsl:stylesheet xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot; xmlns:tns4=&quot;http://xmlns.oracle.com/oxp/service/PublicReportService&quot; xmlns:tns1=&quot;http://www.example.org/EmployeeFusion&quot; xmlns:tib=&quot;http://www.tibco.com/bw/xslt/custom-functions&quot; version=&quot;2.0&quot;>&#xa;    &lt;xsl:param name=&quot;RenderXml1&quot;/>&#xa;    &lt;xsl:template name=&quot;Reply-input&quot; match=&quot;/&quot;>&#xa;        &lt;tns1:runReportResponse>&#xa;            &lt;tns1:runReportReturn>&#xa;                &lt;tns1:reportBytes>&#xa;                    &lt;xsl:value-of select=&quot;tib:string-to-base64($RenderXml1)&quot;/>&#xa;                &lt;/tns1:reportBytes>&#xa;                &lt;tns1:reportContentType>&#xa;                    &lt;xsl:value-of select=&quot;'text/xml'&quot;/>&#xa;                &lt;/tns1:reportContentType>&#xa;                &lt;tns1:reportFileID>&#xa;                    &lt;xsl:value-of select=&quot;''&quot;/>&#xa;                &lt;/tns1:reportFileID>&#xa;                &lt;tns1:reportLocale>&#xa;                    &lt;xsl:value-of select=&quot;''&quot;/>&#xa;                &lt;/tns1:reportLocale>&#xa;                &lt;tns1:metaDataList>&#xa;                    &lt;xsl:value-of select=&quot;''&quot;/>&#xa;                &lt;/tns1:metaDataList>&#xa;            &lt;/tns1:runReportReturn>&#xa;        &lt;/tns1:runReportResponse>&#xa;    &lt;/xsl:template>&#xa;&lt;/xsl:stylesheet>" expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xslt1.0"/>
+                                </tibex:inputBindings>
+                                <bpws:targets>
+                                    <bpws:target linkName="RenderXml1ToReply"/>
+                                </bpws:targets>
+                            </bpws:reply>
+                        </bpws:flow>
+                    </bpws:scope>
+                </bpws:onMessage>
+            </bpws:pick>
+        </bpws:flow>
+    </bpws:scope>
+</bpws:process>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sca:composite xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:BW="http://xsd.tns.tibco.com/amf/models/sca/implementationtype/BW" xmlns:EmployeeFusion="http://www.example.org/EmployeeFusion" xmlns:EmployeeMaster="http://www.Tibco.org/EmployeeMaster" xmlns:EmployeeRegination="http://www.example.org/EmployeeRegination" xmlns:PublicReportService="http://xmlns.oracle.com/oxp/service/PublicReportService" xmlns:XMLSchema="http://www.w3.org/2001/XMLSchema" xmlns:axis2="http://xsd.tns.tibco.com/bw/models/binding/soap/axis2" xmlns:compositeext="http://schemas.tibco.com/amx/3.0/compositeext" xmlns:property="http://ns.tibco.com/bw/property" xmlns:rest="http://xsd.tns.tibco.com/bw/models/binding/rest" xmlns:sca="http://www.osoa.org/xmlns/sca/1.0" xmlns:scact="http://xsd.tns.tibco.com/amf/models/sca/componentType" xmlns:scaext="http://xsd.tns.tibco.com/amf/models/sca/extensions" xmi:id="_EQHRMHR5Ee2MgvPxjJ5wXQ" targetNamespace="http://tns.tibco.com/bw/composite/EmployeeMaster" name="EmployeeMaster" compositeext:version="1.0.0" compositeext:formatVersion="2">
+  <sca:service xmi:id="_diWxgHR5Ee2MgvPxjJ5wXQ" name="api-v1-employeeMaster" promote="ComponentEmployeeMaster/api-v1-employeeMaster">
+    <sca:interface.wsdl xmi:id="_dikz8HR5Ee2MgvPxjJ5wXQ" interface="http://xmlns.example.com/20221205141731PLT#wsdl.interface(api-v1-employeeMaster)" scaext:wsdlLocation="../Processes/employeemaster/EmployeeMaster.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_diy2YHR5Ee2MgvPxjJ5wXQ" name="RestService" path="/api/v1/employeeMaster" docBasePath="http://localhost:7777/EmployeeMaster" docResourcePath="EmployeeMaster" basePath="/" connector="employeemaster.EmployeeMaster" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/employeemaster.main.EmployeeMaster-EmployeeMaster.json">
+      <operation xmi:id="_di6LIHR5Ee2MgvPxjJ5wXQ" operationName="get" nickname="get-api-v1-employeeMaster" httpMethod="GET" notes="getEmployeeMaster" responseStyle="element" outputPartName="item">
+        <parameters xmi:id="_nSw7oHR5Ee2MgvPxjJ5wXQ">
+          <parameterMapping xmi:id="_nSw7oXR5Ee2MgvPxjJ5wXQ" parameterName="employeeCode" parameterType="Query" dataType="string" required="true"/>
+        </parameters>
+        <responseStatus xmi:id="_s5_n8ITiEe2Zpb8JOLZxwA" statusCode="200" reasonPhrase="OK" elementQName="EmployeeMaster:Data_DS"/>
+        <responseStatus xmi:id="_tgQ9wITiEe2Zpb8JOLZxwA" statusCode="400" reasonPhrase="Bad Request" elementQName="EmployeeMaster:Data_DS"/>
+        <responseStatus xmi:id="_uiaXQITiEe2Zpb8JOLZxwA" statusCode="500" reasonPhrase="Internal Server Error" elementQName="EmployeeMaster:Data_DS"/>
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_dmPL8HR5Ee2MgvPxjJ5wXQ"/>
+      <import xmi:id="_w-yTEITiEe2Zpb8JOLZxwA" importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.Tibco.org/EmployeeMaster"/>
+      <advancedConfig xmi:id="_di15sHR5Ee2MgvPxjJ5wXQ" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_di6LIXR5Ee2MgvPxjJ5wXQ" bindingName="RestService"/>
+  </sca:service>
+  <sca:service xmi:id="_3VUwkHSKEe2MgvPxjJ5wXQ" name="Fusion" promote="ComponentrunReport/Fusion">
+    <sca:interface.wsdl xmi:id="_3VUwlHSKEe2MgvPxjJ5wXQ" interface="http://xmlns.oracle.com/oxp/service/PublicReportService#wsdl.interface(Fusion)"/>
+    <scaext:binding xsi:type="axis2:SOAPServiceBinding" xmi:id="_KS048HUmEe2MgvPxjJ5wXQ" name="SOAPServiceBinding" targetNamespace="http://www.tibco.com/bf43d72e10ad4283a1fd8dfb08c9e684/SOAPServiceBinding" portTypeQName="PublicReportService:Fusion" transportBindingType="HTTP" attachmentStyle="SwA" modelVersion="1.2.0" portTypeWSDLLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+      <bindingType xmi:id="_KTpYUHUmEe2MgvPxjJ5wXQ"/>
+      <inboundConfiguration xsi:type="axis2:HttpTransportConfiguration" xmi:id="_Q-ccYHUmEe2MgvPxjJ5wXQ" endpointURI="/Custom/Integrations/HCM/Taleo_Fusion/Report-Emp.details.xdo" httpConnector="common.FusionHttpConnector"/>
+      <operationConfiguration xmi:id="_KTu34HUmEe2MgvPxjJ5wXQ" operationName="NewOperation" action="NewOperation" actionNeeded="true">
+        <bindingType xmi:id="_KTu34XUmEe2MgvPxjJ5wXQ"/>
+        <messageConfiguration xmi:id="_KTu34nUmEe2MgvPxjJ5wXQ" messageQName="PublicReportService:NewOperationRequest" wsdlLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+          <messagePartConfigurations xsi:type="axis2:BodyPartConfiguration" xmi:id="_KTve8HUmEe2MgvPxjJ5wXQ" partName="parameters" partElementName="EmployeeFusion:runReport"/>
+        </messageConfiguration>
+        <messageConfiguration xmi:id="_KTve8XUmEe2MgvPxjJ5wXQ" messageQName="PublicReportService:NewOperationResponse" messageDirection="OUTPUT" wsdlLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+          <messagePartConfigurations xsi:type="axis2:BodyPartConfiguration" xmi:id="_KTve8nUmEe2MgvPxjJ5wXQ" partName="parameters" partElementName="EmployeeFusion:runReportResponse"/>
+        </messageConfiguration>
+        <context xmi:id="_KTwGAHUmEe2MgvPxjJ5wXQ">
+          <inputMapping xmi:id="_KTwtEHUmEe2MgvPxjJ5wXQ"/>
+          <outputMapping xmi:id="_KTwtEXUmEe2MgvPxjJ5wXQ" direction="OUTPUT"/>
+        </context>
+      </operationConfiguration>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_KTwtEnUmEe2MgvPxjJ5wXQ" bindingName="SOAPServiceBinding"/>
+  </sca:service>
+  <sca:service xmi:id="_VewGUHYMEe2MgvPxjJ5wXQ" name="api-v1-employeeMaster-changes" promote="ComponentEmployeeMasterChanges/api-v1-employeeMaster-changes">
+    <sca:interface.wsdl xmi:id="_VezwsHYMEe2MgvPxjJ5wXQ" interface="http://xmlns.example.com/20221207142126PLT#wsdl.interface(api-v1-employeeMaster-changes)" scaext:wsdlLocation="../Processes/employeemaster/main/EmployeeMasterChanges.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_VfBzIHYMEe2MgvPxjJ5wXQ" name="RestService1" path="/api/v1/employeeMaster/changes" docBasePath="http://localhost:7777/EmployeeMaster" docResourcePath="EmployeeMasterChanges" basePath="/" connector="employeemaster.EmployeeMaster" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/employeemaster.main.EmployeeMasterChanges-EmployeeMasterChanges.json">
+      <operation xmi:id="_VfFdgHYMEe2MgvPxjJ5wXQ" operationName="get" nickname="get-api-v1-employeeMaster-changes" httpMethod="GET" notes="getEmployeeMasterChanges" responseStyle="element" requestStyle="element" outputPartName="item">
+        <parameters xmi:id="_yGF6MHYMEe2MgvPxjJ5wXQ">
+          <parameterMapping xmi:id="_yGF6MXYMEe2MgvPxjJ5wXQ" parameterName="fromDate" parameterType="Query" dataType="string" required="true"/>
+          <parameterMapping xmi:id="_zq0cUHYMEe2MgvPxjJ5wXQ" parameterName="toDate" parameterType="Query" dataType="string" required="true"/>
+        </parameters>
+        <responseStatus xmi:id="_SG9y4IT5Ee2Zpb8JOLZxwA" statusCode="200" reasonPhrase="OK" elementQName="EmployeeMaster:Data_DS"/>
+        <responseStatus xmi:id="_SRfA0IT5Ee2Zpb8JOLZxwA" statusCode="400" reasonPhrase="Bad Request" elementQName="EmployeeMaster:Data_DS"/>
+        <responseStatus xmi:id="_TaqPYIT5Ee2Zpb8JOLZxwA" statusCode="500" reasonPhrase="Internal Server Error" elementQName="EmployeeMaster:Data_DS"/>
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_VgXP4HYMEe2MgvPxjJ5wXQ"/>
+      <import xmi:id="_WPRFAIT5Ee2Zpb8JOLZxwA" importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.Tibco.org/EmployeeMaster"/>
+      <advancedConfig xmi:id="_VfBzIXYMEe2MgvPxjJ5wXQ" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_VfFdgXYMEe2MgvPxjJ5wXQ" bindingName="RestService1"/>
+  </sca:service>
+  <sca:service xmi:id="_fhRj0Ha_Ee2MgvPxjJ5wXQ" name="Fusion1" promote="ComponentRunReportDate/Fusion">
+    <sca:interface.wsdl xmi:id="_fhTZAHa_Ee2MgvPxjJ5wXQ" interface="http://xmlns.oracle.com/oxp/service/PublicReportService#wsdl.interface(Fusion)"/>
+    <scaext:binding xsi:type="axis2:SOAPServiceBinding" xmi:id="_VNFxsHbUEe2MgvPxjJ5wXQ" name="SOAPServiceBinding1" targetNamespace="http://www.tibco.com/348904a598474143a8cd93f213b34749/SOAPServiceBinding1" portTypeQName="PublicReportService:Fusion" transportBindingType="HTTP" attachmentStyle="SwA" modelVersion="1.2.0" portTypeWSDLLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+      <bindingType xmi:id="_VNG_0HbUEe2MgvPxjJ5wXQ"/>
+      <inboundConfiguration xsi:type="axis2:HttpTransportConfiguration" xmi:id="_Wb68UHbUEe2MgvPxjJ5wXQ" endpointURI="/Custom/Integrations/HCM/Taleo_Fusion/changes/Report-Emp.details.xdo" httpConnector="common.FusionHttpConnector"/>
+      <operationConfiguration xmi:id="_VNHm4HbUEe2MgvPxjJ5wXQ" operationName="NewOperation" action="NewOperation" actionNeeded="true">
+        <bindingType xmi:id="_VNHm4XbUEe2MgvPxjJ5wXQ"/>
+        <messageConfiguration xmi:id="_VNHm4nbUEe2MgvPxjJ5wXQ" messageQName="PublicReportService:NewOperationRequest" wsdlLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+          <messagePartConfigurations xsi:type="axis2:BodyPartConfiguration" xmi:id="_VNHm43bUEe2MgvPxjJ5wXQ" partName="parameters" partElementName="EmployeeFusion:runReport"/>
+        </messageConfiguration>
+        <messageConfiguration xmi:id="_VNHm5HbUEe2MgvPxjJ5wXQ" messageQName="PublicReportService:NewOperationResponse" messageDirection="OUTPUT" wsdlLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+          <messagePartConfigurations xsi:type="axis2:BodyPartConfiguration" xmi:id="_VNHm5XbUEe2MgvPxjJ5wXQ" partName="parameters" partElementName="EmployeeFusion:runReportResponse"/>
+        </messageConfiguration>
+        <messageConfiguration xmi:id="_VNHm5nbUEe2MgvPxjJ5wXQ" messageQName="PublicReportService:NewOperationFault" messageDirection="FAULT" action="fault" wsdlLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+          <messagePartConfigurations xsi:type="axis2:BodyPartConfiguration" xmi:id="_VNHm53bUEe2MgvPxjJ5wXQ" partName="parameters" partElementName="EmployeeFusion:WebFault"/>
+        </messageConfiguration>
+        <context xmi:id="_VNHm6HbUEe2MgvPxjJ5wXQ">
+          <inputMapping xmi:id="_VNHm6XbUEe2MgvPxjJ5wXQ"/>
+          <outputMapping xmi:id="_VNIN8HbUEe2MgvPxjJ5wXQ" direction="OUTPUT"/>
+          <faultMappings xmi:id="_VNgocHbUEe2MgvPxjJ5wXQ" direction="FAULT" faultName="fault"/>
+        </context>
+      </operationConfiguration>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_VNhPgHbUEe2MgvPxjJ5wXQ" bindingName="SOAPServiceBinding1"/>
+  </sca:service>
+  <sca:service xmi:id="_itnBQHoSEe2U-cy3ubOEEg" name="api-v1-employeeresignationdetails" promote="ComponentEmployeeResignation/api-v1-employeeresignationdetails">
+    <sca:interface.wsdl xmi:id="_it7KUHoSEe2U-cy3ubOEEg" interface="http://xmlns.example.com/20221212170624PLT#wsdl.interface(api-v1-employeeresignationdetails)" scaext:wsdlLocation="../Processes/employeemaster/main/EmployeeResignation.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_iuBQ8HoSEe2U-cy3ubOEEg" name="RestService2" path="/api/v1/employeeresignationdetails" docBasePath="http://localhost:7777/EmployeeMaster" docResourcePath="Resignation" basePath="/" connector="employeemaster.EmployeeMaster" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/employeemaster.main.EmployeeResignation-Resignation.json">
+      <operation xmi:id="_iuGJcHoSEe2U-cy3ubOEEg" operationName="get" nickname="get-api-v1-employeeresignationdetails" httpMethod="GET" notes="getResignation" responseStyle="element" requestStyle="element" outputPartName="item">
+        <parameters xmi:id="_oHeo8HoSEe2U-cy3ubOEEg">
+          <parameterMapping xmi:id="_oHeo8XoSEe2U-cy3ubOEEg" parameterName="employeeCode" parameterType="Query" dataType="string" required="true"/>
+        </parameters>
+        <responseStatus xmi:id="_bBpO4IT5Ee2Zpb8JOLZxwA" statusCode="200" reasonPhrase="OK" elementQName="EmployeeRegination:Data_DS"/>
+        <responseStatus xmi:id="_bGTFYIT5Ee2Zpb8JOLZxwA" statusCode="400" reasonPhrase="Bad Request" elementQName="EmployeeRegination:Data_DS"/>
+        <responseStatus xmi:id="_bK4DYIT5Ee2Zpb8JOLZxwA" statusCode="500" reasonPhrase="Internal Server Error" elementQName="EmployeeRegination:Data_DS"/>
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_iuvCoHoSEe2U-cy3ubOEEg"/>
+      <import xmi:id="_dSnzAIT5Ee2Zpb8JOLZxwA" importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/EmployeeRegination"/>
+      <advancedConfig xmi:id="_iuBQ8XoSEe2U-cy3ubOEEg" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_iuGJcXoSEe2U-cy3ubOEEg" bindingName="RestService2"/>
+  </sca:service>
+  <sca:service xmi:id="_lVqDcHuEEe2U-cy3ubOEEg" name="api-v1-employeeresignationdetails-changes" promote="ComponentResignationChanges/api-v1-employeeresignationdetails-changes">
+    <sca:interface.wsdl xmi:id="_lVr4oHuEEe2U-cy3ubOEEg" interface="http://xmlns.example.com/20221214132448PLT#wsdl.interface(api-v1-employeeresignationdetails-changes)" scaext:wsdlLocation="../Processes/employeemaster/main/ResignationChanges.bwp"/>
+    <scaext:binding xsi:type="rest:RestServiceBinding" xmi:id="_lVxYMHuEEe2U-cy3ubOEEg" name="RestService3" path="/api/v1/employeeresignationdetails/changes" docBasePath="http://localhost:7777/EmployeeMaster" docResourcePath="ResignationChanges" basePath="/" connector="employeemaster.EmployeeMaster" structuredData="true" technologyVersion="2.0" implementation="Service Descriptors/employeemaster.main.ResignationChanges-ResignationChanges.json">
+      <operation xmi:id="_lV23wHuEEe2U-cy3ubOEEg" operationName="get" nickname="get-api-v1-employeeresignationdetails-changes" httpMethod="GET" notes="getResignationChanges" responseStyle="element" requestStyle="element" outputPartName="item">
+        <parameters xmi:id="_1a4BQHuJEe2U-cy3ubOEEg">
+          <parameterMapping xmi:id="_1a4BQXuJEe2U-cy3ubOEEg" parameterName="fromDate" parameterType="Query" dataType="string" required="true"/>
+          <parameterMapping xmi:id="_1iQboHuJEe2U-cy3ubOEEg" parameterName="toDate" parameterType="Query" dataType="string" required="true"/>
+          <parameterMapping xmi:id="_FG_U0HuKEe2U-cy3ubOEEg" parameterName="page" parameterType="Query" dataType="string"/>
+          <parameterMapping xmi:id="_F5cFcHuKEe2U-cy3ubOEEg" parameterName="limit" parameterType="Query" dataType="string"/>
+          <parameterMapping xmi:id="_G0EhsHuKEe2U-cy3ubOEEg" parameterName="sortKey" parameterType="Query" dataType="string"/>
+          <parameterMapping xmi:id="_KlEuIHuKEe2U-cy3ubOEEg" parameterName="sortOrder" parameterType="Query" dataType="string"/>
+        </parameters>
+        <responseStatus xmi:id="_hfOWUIT5Ee2Zpb8JOLZxwA" statusCode="200" reasonPhrase="OK" elementQName="EmployeeRegination:Data_DS"/>
+        <responseStatus xmi:id="_ht4dYIT5Ee2Zpb8JOLZxwA" statusCode="400" reasonPhrase="Bad Request" elementQName="EmployeeRegination:Data_DS"/>
+        <responseStatus xmi:id="_hyKgcIT5Ee2Zpb8JOLZxwA" statusCode="500" reasonPhrase="Internal Server Error" elementQName="EmployeeRegination:Data_DS"/>
+        <clientFormat>json</clientFormat>
+        <clientRequestFormat>json</clientRequestFormat>
+      </operation>
+      <parameters xmi:id="_lWB24HuEEe2U-cy3ubOEEg"/>
+      <import xmi:id="_j0fkkIT5Ee2Zpb8JOLZxwA" importType="http://www.w3.org/2001/XMLSchema" namespace="http://www.example.org/EmployeeRegination"/>
+      <advancedConfig xmi:id="_lVxYMXuEEe2U-cy3ubOEEg" blockingQueueSize="2147483647"/>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_lV3e0HuEEe2U-cy3ubOEEg" bindingName="RestService3"/>
+  </sca:service>
+  <sca:service xmi:id="_cpXnoH-IEe2Zpb8JOLZxwA" name="Fusion2" promote="ComponentrunReportCode/Fusion">
+    <sca:interface.wsdl xmi:id="_cpfjcH-IEe2Zpb8JOLZxwA" interface="http://xmlns.oracle.com/oxp/service/PublicReportService#wsdl.interface(Fusion)" scaext:wsdlLocation="../../Common/Service%20Descriptors/Fusion.wsdl"/>
+    <scaext:binding xsi:type="axis2:SOAPServiceBinding" xmi:id="_0ZTVwH-KEe2Zpb8JOLZxwA" name="SOAPServiceBinding2" targetNamespace="http://www.tibco.com/463b122fa2104187bcbcd6b813903645/SOAPServiceBinding2" portTypeQName="PublicReportService:Fusion" transportBindingType="HTTP" attachmentStyle="SwA" modelVersion="1.2.0" portTypeWSDLLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+      <bindingType xmi:id="_0ZVyAH-KEe2Zpb8JOLZxwA"/>
+      <inboundConfiguration xsi:type="axis2:HttpTransportConfiguration" xmi:id="_1R6_0H-KEe2Zpb8JOLZxwA" endpointURI="/SOAPServiceBinding2/fusion2/" httpConnector="common.FusionHttpConnector"/>
+      <operationConfiguration xmi:id="_0ZXAIH-KEe2Zpb8JOLZxwA" operationName="NewOperation" action="NewOperation" actionNeeded="true">
+        <bindingType xmi:id="_0ZXAIX-KEe2Zpb8JOLZxwA"/>
+        <messageConfiguration xmi:id="_0ZXAIn-KEe2Zpb8JOLZxwA" messageQName="PublicReportService:NewOperationRequest" wsdlLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+          <messagePartConfigurations xsi:type="axis2:BodyPartConfiguration" xmi:id="_0ZXAI3-KEe2Zpb8JOLZxwA" partName="parameters" partElementName="EmployeeFusion:runReport"/>
+        </messageConfiguration>
+        <messageConfiguration xmi:id="_0ZXAJH-KEe2Zpb8JOLZxwA" messageQName="PublicReportService:NewOperationResponse" messageDirection="OUTPUT" wsdlLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+          <messagePartConfigurations xsi:type="axis2:BodyPartConfiguration" xmi:id="_0ZXAJX-KEe2Zpb8JOLZxwA" partName="parameters" partElementName="EmployeeFusion:runReportResponse"/>
+        </messageConfiguration>
+        <messageConfiguration xmi:id="_0ZXAJn-KEe2Zpb8JOLZxwA" messageQName="PublicReportService:NewOperationFault" messageDirection="FAULT" action="fault" wsdlLocation="platform:/resource/Common/Service%20Descriptors/Fusion.wsdl">
+          <messagePartConfigurations xsi:type="axis2:BodyPartConfiguration" xmi:id="_0ZXAJ3-KEe2Zpb8JOLZxwA" partName="parameters" partElementName="EmployeeFusion:WebFault"/>
+        </messageConfiguration>
+        <context xmi:id="_0ZXnMH-KEe2Zpb8JOLZxwA">
+          <inputMapping xmi:id="_0ZXnMX-KEe2Zpb8JOLZxwA"/>
+          <outputMapping xmi:id="_0ZXnMn-KEe2Zpb8JOLZxwA" direction="OUTPUT"/>
+          <faultMappings xmi:id="_0ZXnM3-KEe2Zpb8JOLZxwA" direction="FAULT" faultName="fault"/>
+        </context>
+      </operationConfiguration>
+    </scaext:binding>
+    <scact:bindingAdjunct xmi:id="_0ZXnNH-KEe2Zpb8JOLZxwA" bindingName="SOAPServiceBinding2"/>
+  </sca:service>
+  <sca:property xmi:id="_E9mpUHR5Ee2MgvPxjJ5wXQ" name="BW.DEPLOYMENTUNIT.TYPE" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_E9y2kHR5Ee2MgvPxjJ5wXQ" name="BW.APPNODE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_E91S0HR5Ee2MgvPxjJ5wXQ" name="BW.DEPLOYMENTUNIT.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_E93vEHR5Ee2MgvPxjJ5wXQ" name="BW.HOST.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_E96LUHR5Ee2MgvPxjJ5wXQ" name="BW.DOMAIN.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_E98nkHR5Ee2MgvPxjJ5wXQ" name="BW.DEPLOYMENTUNIT.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_E9_D0HR5Ee2MgvPxjJ5wXQ" name="BW.APPSPACE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_E-BgEHR5Ee2MgvPxjJ5wXQ" name="BW.MODULE.VERSION" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_E-EjYHR5Ee2MgvPxjJ5wXQ" name="BW.MODULE.NAME" type="XMLSchema:string" scalable="true"/>
+  <sca:property xmi:id="_Ul9U8ITlEe2Zpb8JOLZxwA" name="Version" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_XmcqcITlEe2Zpb8JOLZxwA" name="Limit" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_D7CnEIT2Ee2Zpb8JOLZxwA" name="ContentType" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_0oW5oIUVEe2zcPzGvS-wpA" name="ResourcePath" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_C9CWcITlEe2Zpb8JOLZxwA" name="/ErrorCodes/NullErrCode" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_EmOh0ITlEe2Zpb8JOLZxwA" name="/ErrorCodes/LengthErrCode" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_UdNMIITmEe2Zpb8JOLZxwA" name="/ErrorCodes/NoRecord" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_9Xlw4ITkEe2Zpb8JOLZxwA" name="/ErrorCodes/CodeSeprator" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_PjfR4ITrEe2Zpb8JOLZxwA" name="/ErrorCodes/SortOrderErr" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_PoHTMITrEe2Zpb8JOLZxwA" name="/ErrorCodes/SortKeyErr" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_nA5CYITpEe2Zpb8JOLZxwA" name="/ErrorCodes/Dates/FromNull" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_of3h0ITpEe2Zpb8JOLZxwA" name="/ErrorCodes/Dates/ToNull" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_o4So4ITpEe2Zpb8JOLZxwA" name="/ErrorCodes/Dates/FromFormatErr" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_pUO-AITpEe2Zpb8JOLZxwA" name="/ErrorCodes/Dates/toFormatErr" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_pjhXMITpEe2Zpb8JOLZxwA" name="/ErrorCodes/Dates/fromGreaterToday" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_qIJHMITpEe2Zpb8JOLZxwA" name="/ErrorCodes/Dates/fromGreaterToDate" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_wz2KMITpEe2Zpb8JOLZxwA" name="/ErrorCodes/Dates/toDateGreaterToday" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_w4R-QITpEe2Zpb8JOLZxwA" name="/ErrorCodes/Dates/Date7Days" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_5nXOQITpEe2Zpb8JOLZxwA" name="/ErrorCodes/Dates/ToDateLessFrom" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_iZaEcITqEe2Zpb8JOLZxwA" name="/ErrorCodes/Page/PageNull" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_10vbwITqEe2Zpb8JOLZxwA" name="/ErrorCodes/Page/PageValid" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_k7rz8ITqEe2Zpb8JOLZxwA" name="/ErrorCodes/Limit/limitLess" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_A6uRsITrEe2Zpb8JOLZxwA" name="/ErrorCodes/Limit/LimitNull" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_A-FHsITrEe2Zpb8JOLZxwA" name="/ErrorCodes/Limit/LimitValid" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_MQEzkIWfEe2zcPzGvS-wpA" name="/ErrorCodes/ResignationErrCodes/FromNull" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_3UlQEIWpEe2zcPzGvS-wpA" name="/ErrorCodes/ResignationErrCodes/ToNull" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_3YGeIIWpEe2zcPzGvS-wpA" name="/ErrorCodes/ResignationErrCodes/FromFormatErr" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_3Z7DEIWpEe2zcPzGvS-wpA" name="/ErrorCodes/ResignationErrCodes/toFormatErr" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_3bwPEIWpEe2zcPzGvS-wpA" name="/ErrorCodes/ResignationErrCodes/fromGreaterToday" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_3dXYoIWpEe2zcPzGvS-wpA" name="/ErrorCodes/ResignationErrCodes/fromGreaterToDate" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_3fHsIIWpEe2zcPzGvS-wpA" name="/ErrorCodes/ResignationErrCodes/toDateGreaterToday" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_3gygEIWpEe2zcPzGvS-wpA" name="/ErrorCodes/ResignationErrCodes/Date365Days" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:property xmi:id="_3iizkIWpEe2zcPzGvS-wpA" name="/ErrorCodes/ResignationErrCodes/ToDateLessFrom" type="XMLSchema:string" publicAccess="true" scalable="true"/>
+  <sca:component xmi:id="_diKkQHR5Ee2MgvPxjJ5wXQ" name="ComponentEmployeeMaster" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_diLyYHR5Ee2MgvPxjJ5wXQ" processName="employeemaster.main.EmployeeMaster"/>
+    <sca:service xmi:id="_diSgEHR5Ee2MgvPxjJ5wXQ" name="api-v1-employeeMaster">
+      <sca:interface.wsdl xmi:id="_diTHIHR5Ee2MgvPxjJ5wXQ" interface="http://xmlns.example.com/20221205141731PLT#wsdl.interface(api-v1-employeeMaster)" scaext:wsdlLocation="../Processes/employeemaster/EmployeeMaster.bwp"/>
+    </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_wfe6IHSKEe2MgvPxjJ5wXQ" name="ComponentrunReport" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_wfe6IXSKEe2MgvPxjJ5wXQ" processName="employeemaster.fusion.runReport"/>
+    <sca:service xmi:id="_3VUJgHSKEe2MgvPxjJ5wXQ" name="Fusion">
+      <sca:interface.wsdl xmi:id="_3VUJgXSKEe2MgvPxjJ5wXQ" interface="http://xmlns.oracle.com/oxp/service/PublicReportService#wsdl.interface(Fusion)"/>
+    </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_Vehc0HYMEe2MgvPxjJ5wXQ" name="ComponentEmployeeMasterChanges" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_Vehc0XYMEe2MgvPxjJ5wXQ" processName="employeemaster.main.EmployeeMasterChanges"/>
+    <sca:service xmi:id="_Ver04HYMEe2MgvPxjJ5wXQ" name="api-v1-employeeMaster-changes">
+      <sca:interface.wsdl xmi:id="_Vesb8HYMEe2MgvPxjJ5wXQ" interface="http://xmlns.example.com/20221207142126PLT#wsdl.interface(api-v1-employeeMaster-changes)" scaext:wsdlLocation="../Processes/employeemaster/main/EmployeeMasterChanges.bwp"/>
+    </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_8UaZAHa0Ee2MgvPxjJ5wXQ" name="ComponentRunReportDate" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_8UaZAXa0Ee2MgvPxjJ5wXQ" processName="employeemaster.fusion.RunReportDate"/>
+    <sca:service xmi:id="_fhPuoHa_Ee2MgvPxjJ5wXQ" name="Fusion">
+      <sca:interface.wsdl xmi:id="_fhQVsHa_Ee2MgvPxjJ5wXQ" interface="http://xmlns.oracle.com/oxp/service/PublicReportService#wsdl.interface(Fusion)"/>
+    </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_5yib4HblEe2MgvPxjJ5wXQ" name="Componenttest" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_5yib4XblEe2MgvPxjJ5wXQ" processName="employeemaster.sub.test"/>
+  </sca:component>
+  <sca:component xmi:id="_Ncu6EHoREe2U-cy3ubOEEg" name="ComponentEmployeeResignation" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_Ncu6EXoREe2U-cy3ubOEEg" processName="employeemaster.main.EmployeeResignation"/>
+    <sca:service xmi:id="_ithhsHoSEe2U-cy3ubOEEg" name="api-v1-employeeresignationdetails">
+      <sca:interface.wsdl xmi:id="_itiv0HoSEe2U-cy3ubOEEg" interface="http://xmlns.example.com/20221212170624PLT#wsdl.interface(api-v1-employeeresignationdetails)"/>
+    </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_lVmZEHuEEe2U-cy3ubOEEg" name="ComponentResignationChanges" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_lVmZEXuEEe2U-cy3ubOEEg" processName="employeemaster.main.ResignationChanges"/>
+    <sca:service xmi:id="_lVpcYHuEEe2U-cy3ubOEEg" name="api-v1-employeeresignationdetails-changes">
+      <sca:interface.wsdl xmi:id="_lVpcYXuEEe2U-cy3ubOEEg" interface="http://xmlns.example.com/20221214132448PLT#wsdl.interface(api-v1-employeeresignationdetails-changes)" scaext:wsdlLocation="../Processes/employeemaster/main/ResignationChanges.bwp"/>
+    </sca:service>
+  </sca:component>
+  <sca:component xmi:id="_cpOdsH-IEe2Zpb8JOLZxwA" name="ComponentrunReportCode" compositeext:version="1.0.0.qualifier">
+    <scaext:implementation xsi:type="BW:BWComponentImplementation" xmi:id="_cpOdsX-IEe2Zpb8JOLZxwA" processName="employeemaster.sub.runReportCodeCopy"/>
+    <sca:service xmi:id="_cpT9QH-IEe2Zpb8JOLZxwA" name="Fusion">
+      <sca:interface.wsdl xmi:id="_cpUkUH-IEe2Zpb8JOLZxwA" interface="http://xmlns.oracle.com/oxp/service/PublicReportService#wsdl.interface(Fusion)" scaext:wsdlLocation="../../Common/Service%20Descriptors/Fusion.wsdl"/>
+    </sca:service>
+  </sca:component>
+</sca:composite>
